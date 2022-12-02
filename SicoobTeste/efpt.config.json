@@ -1,0 +1,101 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "SicoobTesteContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "SicoobTeste",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[AplicacaoCota]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Cartoes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CartoesTrimestre]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Endividamento]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[EndividamentoExterno]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[EndividamentoInterno]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[IAP]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[LimiteCredito]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MargemContribuicao]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MediaEntradaSemestral]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MediaEntradaTrimestral]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PatrimonioCadastroAssociado]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Roles]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SerasaDetalhado]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Tarifas]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Users]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "desktop-2n0ks43.SicoobTeste.dbo",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
