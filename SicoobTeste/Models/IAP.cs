@@ -7,6 +7,7 @@ namespace SicoobTeste.Models
 {
     public partial class IAP
     {
+        //get quantidateProduto and where Column = SIM
         public int IAPID { get; set; }
         public string CPF_CNPJ { get; set; }
         public string CartaoCredito { get; set; }

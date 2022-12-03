@@ -20,6 +20,7 @@ namespace SicoobTeste.Models
         public PatrimonioCadastroAssociado patrimonioCadastro { get; set; }
         public SerasaDetalhado serasaDetalhado { get; set; }
         public IEnumerable<Tarifas> tarifas { get; set; }
+        public string error { get; set; }
 
     }
 }

@@ -1,5 +1,210 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model AnaliseCreditoViewModel
+
 @{
+    ViewData["Title"] = "Resultado da Consulta";
+}
+@section Styles  {
+<link href="@Url.Content("~/css/ResultStyleSheet.css")" rel="stylesheet" type="text/css" />
+}
+@if (Model.error != null)
+{
+    <div class="container">
+        <form role="form">
+            @* -------------------Identicação--------------------------------*@
+            <h2>Identicação</h2>
+            <div class="form-group col-12">
+                <label for="code">Nome:</label>
+                <input type="text" class="form-control" size="50" />
+            </div>
+            <div class="form-group col-12">
+                <label for="code">Finalidade:</label>
+                <input type="text" class="form-control" size="50" />
+            </div>
+            <div class="form-group col-12">
+                <label for="code">Proposta da Alçada:</label>
+                <input type="text" class="form-control" placeholder="Colocar o nivel da Alçada" size="40" />
+            </div>
+            <div class="form-row">
+                <div class="form-group ">
+                    <label style="padding-left:10px" for="ServidorPublico">Servidor Publico:</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="ED., FD, MP" />
+                        <input type="text" class="form-control" placeholder="ATIVO/APOSENTADO" />
+                        <input type="text" class="form-control" placeholder="EFETIVO/COMISSIONADO" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-6">
+                    <label for="Renda Bruta">Renda Bruta</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-6">
+                    <label for="Renda Liquida">Renda Liquida</label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-6">
+                    <label for="Renda Bruta">Demonstrativo do Ano</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-6">
+                    <label for="Renda Liquida">Observação</label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-6">
+                    <label for="Renda Bruta">Demonstrativo do Ano</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-6">
+                    <label for="Renda Liquida">Observação</label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <br>
+            @* -------------------Relacionamento--------------------------------*@
+            <h2>Relacionamento</h2>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label for="Renda Bruta">Associado Desde:</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="Renda Liquida">Cota Capital</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-6" style="text-align:center">
+                    <label for="ServidorPublico">IAP:</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Quantidade" />
+                        <input type="text" class="form-control" placeholder="Produtos" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label for="Renda Bruta">Margem Contribuição</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-8" style="text-align:center">
+                    <label for="ServidorPublico">Cheque Especial</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Dias de Utilização" />
+                        <input type="text" class="form-control" placeholder="Valor Utilizado" />
+                        <input type="text" class="form-control" placeholder="Valor Contratado" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-12" style="text-align:center">
+                    <label for="ServidorPublico">Limite CCL</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Valor Contratado" />
+                        <input type="text" class="form-control" placeholder="Valor Utilizado" />
+                        <input type="text" class="form-control" placeholder="Vencimento" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="row g-2">
+                    <label class="col-3">Cartão de Crédito</label>
+                    <div class="col-3">
+                        <input type="text" class="form-control" placeholder="Valor Contratado" />
+                    </div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" placeholder="Vencimento" />
+                    </div>
+                    <label class="col-3">Pré Aprovado</label>
+                    <div class="col-3">
+                        <input type="text" class="form-control" placeholder="Valor Contratado" />
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" placeholder="Valor Utilizado" />
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label for="Renda Bruta">Total Empréstimos</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="Renda Liquida">Portabilidade Salarial</label>
+                    <input type="text" class="form-control" placeholder="Sim/Não/Solicitado">
+                </div>
+                <div class="col-3">
+                    <label for="Renda Liquida">Pacote Tarifa</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="Renda Liquida">Hist.Uso Modalidade</label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label>Divida Total</label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <br>
+            @* -------------------Informações Externas--------------------------------*@
+            <h2>Informações Externas</h2>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label for="Renda Bruta">Bacen a Pagar até 1 ano de:</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="Renda Liquida">Mensal</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-5" style="text-align:center">
+                    <label for="ServidorPublico">Endividamento Total No Bacen</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Quantidade" />
+                        <input type="text" class="form-control" placeholder="Produtos" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-12">
+                <label for="code">Histórico</label>
+                <input type="text" class="form-control" size="50" />
+            </div>
+            <div class="form-group row">
+                <div class="col-3" style="text-align:center">
+                    <label for="Renda Bruta">Receita</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-3" style="text-align:center">
+                    <label for="Renda Bruta">Score</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-6" style="text-align:center">
+                    <label for="ServidorPublico">Serasa</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Data" />
+                        <input type="text" class="form-control" placeholder="Valor" />
+                        <input type="text" class="form-control" placeholder="Descrições" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-12">
+                <label for="code">Consulta Processo TJ</label>
+                <input type="text" class="form-control" size="50" />
+            </div>
+        </form>
+    </div>
+}
+
+else
+{
+    <div class="container">
+        <h2>Sem dados para o CPF encontrado</h2>
+    </div>
+
 }

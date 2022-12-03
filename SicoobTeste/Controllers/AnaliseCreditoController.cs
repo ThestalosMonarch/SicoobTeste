@@ -11,15 +11,23 @@ namespace SicoobTeste.Controllers
 
             return View();
         }
-        public async Task<IActionResult> GetResultAsync(string indetificador)
+        public async Task<IActionResult> Result(string identificador)
         {
-            var dados = new AnaliseCreditoViewModel
+            var dados = new AnaliseCreditoViewModel();
+            if (string.IsNullOrEmpty(identificador))
             {
-                identificador = indetificador,
-                tarifas = teste.Tarifas,
+                dados.error = "sem dados encontrados para o CPF digitado!";
+            }
+            else
+            {
+                dados = new AnaliseCreditoViewModel
+                {
+                    identificador = identificador,
+                    tarifas = teste.Tarifas,
 
-            };
-
+                };
+               
+            }
             return View(dados);
         }
     }
