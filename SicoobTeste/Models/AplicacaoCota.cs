@@ -7,6 +7,8 @@ namespace SicoobTeste.Models
 {
     public partial class AplicacaoCota
     {
+        internal string error;
+
         public int AplicacaoCotaID { get; set; }
         public string CPF_CNPJ { get; set; }
         public decimal SaldoDiarioRDC { get; set; }

@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\IndexStyleSheet.css" />
+    <None Include="wwwroot\css\IndexAnaliseCreditoStyleSheet.css" />
   </ItemGroup>
 
 </Project>

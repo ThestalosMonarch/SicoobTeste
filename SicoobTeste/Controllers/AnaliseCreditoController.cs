@@ -5,30 +5,34 @@ namespace SicoobTeste.Controllers
 {
     public class AnaliseCreditoController : Controller
     {
-        private readonly SicoobTesteContext teste;
+        private readonly SicoobTesteContext _context;
+        public AnaliseCreditoController(SicoobTesteContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
 
             return View();
         }
-        public async Task<IActionResult> Result(string identificador)
+        public IActionResult Result(string identificador)
         {
-            var dados = new AnaliseCreditoViewModel();
-            if (string.IsNullOrEmpty(identificador))
+            AnaliseCreditoViewModel teste = new AnaliseCreditoViewModel();
+            AplicacaoCota aplicacaoCota = _context.AplicacaoCota.Where(x => x.CPF_CNPJ == identificador).FirstOrDefault();
+            IAP iap = _context.IAP.Where(x => x.CPF_CNPJ == identificador).FirstOrDefault();
+            //var dados = new AnaliseCreditoViewModel();
+            if (aplicacaoCota == null)
             {
-                dados.error = "sem dados encontrados para o CPF digitado!";
+                teste.error = "não encontrado!";
             }
             else
             {
-                dados = new AnaliseCreditoViewModel
-                {
-                    identificador = identificador,
-                    tarifas = teste.Tarifas,
+                teste.identificador = identificador;
+                teste.aplicacaoCota = aplicacaoCota;
+                teste.iAP = iap;
 
-                };
-               
             }
-            return View(dados);
+            return View(teste);
         }
     }
 }

@@ -4,14 +4,17 @@
     ViewData["Title"] = "Resultado da Consulta";
 }
 @section Styles  {
-<link href="@Url.Content("~/css/ResultStyleSheet.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/css/ResultStyleSheet.css")" media="screen" rel="stylesheet" type="text/css" runat="server" />
 }
-@if (Model.error != null)
+<head>
+    <link rel="stylesheet" href="~/css/ResultStyleSheet.css" asp-append-version="true" />
+</head>
+@if (Model.error == null)
 {
     <div class="container">
         <form role="form">
-            @* -------------------Identicação--------------------------------*@
-            <h2>Identicação</h2>
+            @* -------------------Identificação--------------------------------*@
+            <h2>Identificação</h2>
             <div class="form-group col-12">
                 <label for="code">Nome:</label>
                 <input type="text" class="form-control" size="50" />
@@ -79,8 +82,8 @@
                 <div class="col-6" style="text-align:center">
                     <label for="ServidorPublico">IAP:</label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Quantidade" />
-                        <input type="text" class="form-control" placeholder="Produtos" />
+                        <input type="text" class="form-control" placeholder="Quantidade" value="@Html.DisplayFor(model => model.iAP.QuantidadeProduto)"/>
+                        <input type="text" class="form-control" placeholder="Produtos">
                     </div>
                 </div>
             </div>
@@ -197,6 +200,81 @@
                 <label for="code">Consulta Processo TJ</label>
                 <input type="text" class="form-control" size="50" />
             </div>
+            <br>
+            @* -------------------Enquadramento--------------------------------*@
+            <h2>Enquadramento</h2>
+            <div class="form-group row">
+                <div class="col-12">
+                    <label for="Renda Bruta">Cadastro Atualizado</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-12">
+                    <label for="Renda Liquida">CRL</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-12">
+                    <label for="Renda Liquida">Risco Da Operação</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-12">
+                    <label for="Renda Liquida">Linha de Crédito</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-8" style="text-align:center">
+                    <label for="ServidorPublico">Condiçõs da Operação</label>
+                    <div class="input-group mb-4">
+                        <input type="text" class="form-control" placeholder="Valor Total" />
+                        <input type="text" class="form-control" placeholder="Quatidade Parcelas" />
+                        <input type="text" class="form-control" placeholder="Valor das Parcelas" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label for="Renda Bruta">Vencimento</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-4">
+                    <label for="Renda Liquida">Capacidade de Pagamento</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="Renda Liquida">Seguro Prestamista</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="Renda Liquida">Idade</label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label for="Renda Bruta">Doc.Proposta Completa</label>
+                    <input type="text" class="form-control" placeholder="Sim/Não">
+                </div>
+                <div class="col-3">
+                    <label for="Renda Liquida">Ficha Cadastral Assinada</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-4">
+                    <label for="Renda Liquida">Anexado na Plataforma de Atendimento?</label>
+                    <input type="text" class="form-control" placeholder="Sim/Não">
+                </div>
+                <div class="col-6">
+                    <label for="Renda Liquida">Questionario Conheça seu Cliente</label>
+                    <input type="text" class="form-control" placeholder="Sim/Não">
+                </div>
+                <div class="col-6">
+                    <label for="Renda Liquida">Anexado na Plataforma de Atendimento?</label>
+                    <input type="text" class="form-control" placeholder="Sim/Não">
+                </div>
+                <div class="col-12">
+                    <label for="Renda Bruta">Outras Condições</label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+
         </form>
     </div>
 }
