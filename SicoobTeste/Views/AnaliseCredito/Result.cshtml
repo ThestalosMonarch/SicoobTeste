@@ -12,7 +12,7 @@
 @if (Model.error == null)
 {
     <div class="container">
-        <form role="form">
+        <form asp-action="GerarParecer" role="form">
             @* -------------------Identificação--------------------------------*@
             <h2>Identificação</h2>
             <div class="form-group col-12">
@@ -82,8 +82,8 @@
                 <div class="col-6" style="text-align:center">
                     <label for="ServidorPublico">IAP:</label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Quantidade" value="@Html.DisplayFor(model => model.iAP.QuantidadeProduto)"/>
-                        <input type="text" class="form-control" placeholder="Produtos">
+                        <input type="text" class="form-control" value="@Html.DisplayFor(model => model.iAP.QuantidadeProduto)" ReadOnly="readonly" />
+                        <input type="text" class="form-control" placeholder="Produtos" ReadOnly="readonly" />
                     </div>
                 </div>
             </div>
@@ -115,7 +115,7 @@
                 <div class="row g-2">
                     <label class="col-3">Cartão de Crédito</label>
                     <div class="col-3">
-                        <input type="text" class="form-control" placeholder="Valor Contratado" />
+                        <input type="text" class="form-control" placeholder="Valor Contratado" value="@Html.DisplayFor(model => model.cartoes.LimiteAtribuido)" />
                     </div>
                     <div class="col-4">
                         <input type="text" class="form-control" placeholder="Vencimento" />
@@ -135,7 +135,7 @@
                     <label for="Renda Bruta">Total Empréstimos</label>
                     <input type="text" class="form-control">
                 </div>
-                <div class="col-3">
+                <div class="col-5">
                     <label for="Renda Liquida">Portabilidade Salarial</label>
                     <input type="text" class="form-control" placeholder="Sim/Não/Solicitado">
                 </div>
@@ -143,13 +143,14 @@
                     <label for="Renda Liquida">Pacote Tarifa</label>
                     <input type="text" class="form-control">
                 </div>
-                <div class="col-3">
+
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
                     <label for="Renda Liquida">Hist.Uso Modalidade</label>
                     <input type="text" class="form-control">
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-3">
+                <div class="col-4">
                     <label>Divida Total</label>
                     <input type="text" class="form-control">
                 </div>
@@ -251,30 +252,108 @@
             <div class="form-group row">
                 <div class="col-3">
                     <label for="Renda Bruta">Doc.Proposta Completa</label>
-                    <input type="text" class="form-control" placeholder="Sim/Não">
+                    <select asp-for="doc_propostaCompleta">
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
                 </div>
                 <div class="col-3">
-                    <label for="Renda Liquida">Ficha Cadastral Assinada</label>
-                    <input type="text" class="form-control">
+                    <label for="Renda Bruta">Ficha cadastral Assinada</label>
+                    <select asp-for="doc_propostaCompleta">
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
                 </div>
-                <div class="col-4">
-                    <label for="Renda Liquida">Anexado na Plataforma de Atendimento?</label>
-                    <input type="text" class="form-control" placeholder="Sim/Não">
+                <div class="col-5">
+                    <label for="Renda Bruta">Anexado a Plataforma de Atendimento?</label>
+                    <select asp-for="doc_propostaCompleta">
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </div>
+                <div class="col-5">
+                    <label for="Renda Bruta">Questionario Conheça seu Cliente</label>
+                    <select asp-for="doc_propostaCompleta">
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
                 </div>
                 <div class="col-6">
-                    <label for="Renda Liquida">Questionario Conheça seu Cliente</label>
-                    <input type="text" class="form-control" placeholder="Sim/Não">
-                </div>
-                <div class="col-6">
-                    <label for="Renda Liquida">Anexado na Plataforma de Atendimento?</label>
-                    <input type="text" class="form-control" placeholder="Sim/Não">
+                    <label for="Renda Bruta">Anexado a Plataforma de Atendimento?</label>
+                    <select asp-for="doc_propostaCompleta">
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
                 </div>
                 <div class="col-12">
-                    <label for="Renda Bruta">Outras Condições</label>
-                    <input type="text" class="form-control">
+                    <label asp-for=outrasCondicoes>Outras Condições</label>
+                    <input asp-for=outrasCondicoes type="text" class="form-control">
+                </div>
+                @* -------------------Garantias--------------------------------*@
+                <h2>Garantias</h2>
+                <div class="form-group row">
+                    <div class="col-5">
+                        <label for="Renda Bruta">Garantias Pessoal</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-4">
+                        <label for="Renda Liquida">Atualizaçao Cadastral</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label for="Renda Liquida">Renda</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Renda Liquida">Observação</label>
+                    <textarea type="text" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group row">
+                    <div class="col-5">
+                        <label for="Renda Bruta">Bacen a Pagar Até 1 Ano</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-5">
+                        <label for="Renda Liquida">Bacen Limite Liberado Não Usado</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-5">
+                        <label for="Renda Bruta">Historico Bacen</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <label for="Renda Liquida">Receita</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-12" style="text-align:center">
+                        <label for="ServidorPublico">Limite CCL</label>
+                        <div class="input-group">
+                            <div class="col-2">
+                                <input type="text" class="form-control" placeholder="Data" />
+                                <input type="text" class="form-control" placeholder="Valor" />
+                                <input type="text" class="form-control" placeholder="Score" />
+                            </div>
+
+                            <input type="text" class="form-control" placeholder="Restrições e Justificativas" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Renda Liquida">Garantia Real</label>
+                    <textarea type="text" class="form-control" rows="3"></textarea>
+                </div>
+                @* -------------------Gerar Editar--------------------------------*@
+                <br>
+                <div class="col-12">
+                    <input type="submit" value="Gerar" class="btn btn-info">
+                    <input type="submit" value="Editar" class="btn btn-info">
                 </div>
             </div>
-
         </form>
     </div>
 }

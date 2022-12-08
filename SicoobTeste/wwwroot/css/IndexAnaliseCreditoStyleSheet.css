@@ -8,14 +8,15 @@ footer,header {
 }
 
 body {
-    background-color: #ccd40c
+    color:black;
+    background-color: #81d40c;
 }
 
 .container{
     padding: 70px 0;
     border: 3px thins;
     text-align: center;
-    color: #0d3544;
+    color: #000000;
 }
 #form-buscar > .form-group > .input-group > .form-control {
     height: 40px;
