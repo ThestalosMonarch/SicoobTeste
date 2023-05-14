@@ -1,0 +1,20 @@
+﻿@model AnaliseCreditoViewModel
+
+@{
+    ViewData["Title"] = "Resultado da Consulta";
+}
+@section Styles  {
+<link href="@Url.Content("~/css/ResultStyleSheet.css")" media="screen" rel="stylesheet" type="text/css" runat="server" />
+}
+<head>
+    <link rel="stylesheet" href="~/css/ResultStyleSheet.css" asp-append-version="true" />
+</head>
+
+
+else
+{
+    <div class="container">
+        <h2>Sem dados para o CPF encontrado</h2>
+    </div>
+
+}

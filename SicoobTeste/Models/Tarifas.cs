@@ -2,16 +2,13 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace SicoobTeste.Models
 {
     public partial class Tarifas
     {
         public int TarifasID { get; set; }
-        [DisplayName("CPF/CPNJ")]
         public string CPF_CNPJ { get; set; }
-        [DisplayName("Tarifa")]
         public decimal Tarifa { get; set; }
     }
 }

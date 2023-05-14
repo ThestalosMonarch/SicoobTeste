@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SicoobTeste.Data;
 using SicoobTeste.Models;
+using SicoobTeste.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<SicoobTesteContext>();
+
+builder.Services.AddScoped<AnaliseCreditoService>();
 /*
 builder.Services.AddControllersWithViews().AddRazorPagesOptions(options =>
 {

@@ -20,27 +20,30 @@ namespace SicoobTeste.Models
 
         public virtual DbSet<AplicacaoCota> AplicacaoCota { get; set; }
         public virtual DbSet<Cartoes> Cartoes { get; set; }
-        public virtual DbSet<CartoesTrimestre> CartoesTrimestre { get; set; }
+        public virtual DbSet<ChequeEspecial> ChequeEspecial { get; set; }
         public virtual DbSet<Endividamento> Endividamento { get; set; }
         public virtual DbSet<EndividamentoExterno> EndividamentoExterno { get; set; }
         public virtual DbSet<EndividamentoInterno> EndividamentoInterno { get; set; }
+        public virtual DbSet<Garantias> Garantias { get; set; }
         public virtual DbSet<IAP> IAP { get; set; }
+        public virtual DbSet<LimiteCCL> LimiteCCL { get; set; }
         public virtual DbSet<LimiteCredito> LimiteCredito { get; set; }
         public virtual DbSet<MargemContribuicao> MargemContribuicao { get; set; }
         public virtual DbSet<MediaEntradaSemestral> MediaEntradaSemestral { get; set; }
-        public virtual DbSet<MediaEntradaTrimestral> MediaEntradaTrimestral { get; set; }
+        public virtual DbSet<MediaTrimestral> MediaTrimestral { get; set; }
         public virtual DbSet<PatrimonioCadastroAssociado> PatrimonioCadastroAssociado { get; set; }
+        public virtual DbSet<PreAprovado> PreAprovado { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<SerasaDetalhado> SerasaDetalhado { get; set; }
         public virtual DbSet<Tarifas> Tarifas { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<UtilizacaoLimiteCredito> UtilizacaoLimiteCredito { get; set; }
+        public virtual DbSet<ValorLimiteCRL> ValorLimiteCRL { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AplicacaoCota>(entity =>
             {
-                entity.Property(e => e.AplicacaoCotaID).ValueGeneratedNever();
-
                 entity.Property(e => e.CPF_CNPJ)
                     .IsRequired()
                     .HasMaxLength(20)
@@ -53,12 +56,12 @@ namespace SicoobTeste.Models
 
             modelBuilder.Entity<Cartoes>(entity =>
             {
-                entity.Property(e => e.CartoesID).ValueGeneratedNever();
-
                 entity.Property(e => e.CPF_CNPJ)
                     .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Datas).HasColumnType("date");
 
                 entity.Property(e => e.DividaConsolidada).HasColumnType("decimal(18, 2)");
 
@@ -69,62 +72,51 @@ namespace SicoobTeste.Models
                 entity.Property(e => e.LimiteUtilizado).HasColumnType("decimal(18, 2)");
             });
 
-            modelBuilder.Entity<CartoesTrimestre>(entity =>
+            modelBuilder.Entity<ChequeEspecial>(entity =>
             {
-                entity.Property(e => e.CartoesTrimestreID).ValueGeneratedNever();
-
                 entity.Property(e => e.CPF_CNPJ)
                     .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.DividaConsolidada).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.QuantidadeDiasUtilizacao).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.LimiteAtribuido).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.ValorLimiteCreditoContratato).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.LimiteDisponivel).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.ValorSaldoDevedor).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.LimiteUtilizado).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.ValorUtilizado).HasColumnType("decimal(18, 2)");
             });
 
             modelBuilder.Entity<Endividamento>(entity =>
             {
-                entity.Property(e => e.EndividamentoID).ValueGeneratedNever();
-
                 entity.Property(e => e.CPF_CNPJ)
-                    .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.OrigemPrejuizo)
-                    .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
                 entity.Property(e => e.SaldoDevedorDiario).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.SubmodalidadeBacen)
-                    .IsRequired()
                     .HasMaxLength(120)
                     .IsUnicode(false);
             });
 
             modelBuilder.Entity<EndividamentoExterno>(entity =>
             {
-                entity.Property(e => e.EndividamentoExternoID).ValueGeneratedNever();
-
                 entity.Property(e => e.CPF_CNPJ)
                     .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Prejuizo).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.SaldoDevedor).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.SubmodalidadeBacen)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.SubmodalidadeBacen).HasColumnType("text");
 
                 entity.Property(e => e.ValorVencerApos360Dias).HasColumnType("decimal(18, 2)");
 
@@ -135,12 +127,14 @@ namespace SicoobTeste.Models
 
             modelBuilder.Entity<EndividamentoInterno>(entity =>
             {
-                entity.Property(e => e.EndividamentoInternoID).ValueGeneratedNever();
-
                 entity.Property(e => e.CPF_CNPJ)
                     .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
+
+                entity.Property(e => e.INAD15).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.INAD90).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.ModalidadeProduto)
                     .IsRequired()
@@ -152,10 +146,26 @@ namespace SicoobTeste.Models
                 entity.Property(e => e.ValorContrato).HasColumnType("decimal(18, 2)");
             });
 
+            modelBuilder.Entity<Garantias>(entity =>
+            {
+                entity.Property(e => e.CPF_CNPJ)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.GarantiaEnquadramento)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TipoGarantiaEnquadramento)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ValorTotalGarantia).HasColumnType("decimal(18, 2)");
+            });
+
             modelBuilder.Entity<IAP>(entity =>
             {
-                entity.Property(e => e.IAPID).ValueGeneratedNever();
-
                 entity.Property(e => e.Automovel)
                     .IsRequired()
                     .HasMaxLength(10)
@@ -163,7 +173,7 @@ namespace SicoobTeste.Models
 
                 entity.Property(e => e.CPF_CNPJ)
                     .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.CartaoCredito)
@@ -181,7 +191,7 @@ namespace SicoobTeste.Models
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Cobrança)
+                entity.Property(e => e.Cobranca)
                     .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false);
@@ -192,6 +202,11 @@ namespace SicoobTeste.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.ContaCapital)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ContaCorrenteAtiva)
                     .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false);
@@ -217,6 +232,11 @@ namespace SicoobTeste.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Financiamento)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Imovel)
                     .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false);
@@ -247,6 +267,11 @@ namespace SicoobTeste.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.PacoteTarifas)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Poupanca)
                     .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false);
@@ -332,10 +357,45 @@ namespace SicoobTeste.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<LimiteCCL>(entity =>
+            {
+                entity.Property(e => e.CPF_CNPJ)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DataVigenciaLimite)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DescricaoNivelRiscoBACEN)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DescricaoNivelRiscoCRL)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ModalidadeBacen)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NivelRiscoCliente)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ValorLimiteConcedido).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.ValorLimiteUtilizado).HasColumnType("decimal(18, 2)");
+            });
+
             modelBuilder.Entity<LimiteCredito>(entity =>
             {
-                entity.Property(e => e.LimiteCreditoID).ValueGeneratedNever();
-
                 entity.Property(e => e.CPF_CNPJ)
                     .IsRequired()
                     .HasMaxLength(20)
@@ -348,11 +408,9 @@ namespace SicoobTeste.Models
 
             modelBuilder.Entity<MargemContribuicao>(entity =>
             {
-                entity.Property(e => e.MargemContribuicaoID).ValueGeneratedNever();
-
                 entity.Property(e => e.CPF_CNPJ)
                     .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ResultadoAssociados).HasColumnType("decimal(18, 2)");
@@ -363,39 +421,68 @@ namespace SicoobTeste.Models
                 entity.HasKey(e => new { e.MediaEntradaSemestralID, e.CPF_CNPJ })
                     .HasName("PK_MediaEntradaSemestralID");
 
+                entity.Property(e => e.MediaEntradaSemestralID).ValueGeneratedOnAdd();
+
                 entity.Property(e => e.CPF_CNPJ)
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Datas).HasColumnType("date");
 
                 entity.Property(e => e.LancamentoCredito).HasColumnType("decimal(18, 2)");
             });
 
-            modelBuilder.Entity<MediaEntradaTrimestral>(entity =>
+            modelBuilder.Entity<MediaTrimestral>(entity =>
             {
-                entity.Property(e => e.MediaEntradaTrimestralID).ValueGeneratedNever();
+                entity.HasKey(e => new { e.MediaTrimestralID, e.CPF_CNPJ })
+                    .HasName("PK_MediaTrimestralID");
+
+                entity.Property(e => e.MediaTrimestralID).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CPF_CNPJ)
-                    .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LancamentoCredito).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.DataMovimento).HasColumnType("date");
+
+                entity.Property(e => e.SaldoMedio).HasColumnType("decimal(18, 2)");
             });
 
             modelBuilder.Entity<PatrimonioCadastroAssociado>(entity =>
             {
-                entity.Property(e => e.PatrimonioCadastroAssociadoID).ValueGeneratedNever();
-
                 entity.Property(e => e.CPF_CNPJ)
                     .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.DataInicioRelacionamento).HasColumnType("date");
 
+                entity.Property(e => e.DataNascimento).HasColumnType("date");
+
                 entity.Property(e => e.DataUltimaRenovacaoCadastral).HasColumnType("date");
 
+                entity.Property(e => e.Nome)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RendaBrutaMensal).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.ValorBemImovel).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.ValorBemMovel).HasColumnType("decimal(18, 2)");
+            });
+
+            modelBuilder.Entity<PreAprovado>(entity =>
+            {
+                entity.Property(e => e.CPF_CNPJ)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ValorLimiteContratado).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.ValorLimiteUtilizado).HasColumnType("decimal(18, 2)");
             });
 
             modelBuilder.Entity<Roles>(entity =>
@@ -413,21 +500,17 @@ namespace SicoobTeste.Models
 
             modelBuilder.Entity<SerasaDetalhado>(entity =>
             {
-                entity.Property(e => e.SerasaDetalhadoID).ValueGeneratedNever();
-
                 entity.Property(e => e.CPF_CNPJ)
                     .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
             });
 
             modelBuilder.Entity<Tarifas>(entity =>
             {
-                entity.Property(e => e.TarifasID).ValueGeneratedNever();
-
                 entity.Property(e => e.CPF_CNPJ)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Tarifa).HasColumnType("decimal(18, 2)");
@@ -454,6 +537,34 @@ namespace SicoobTeste.Models
                     .HasForeignKey(d => d.RoleCode)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RoleCode");
+            });
+
+            modelBuilder.Entity<UtilizacaoLimiteCredito>(entity =>
+            {
+                entity.Property(e => e.UtilizacaoLimiteCreditoID).ValueGeneratedNever();
+
+                entity.Property(e => e.CPF_CNPJ)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.QuantidadeDiasUtilizacaoLimiteCredito).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.ValorLimiteCreditoContratato).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.ValorSaldoDevedorFinalLimiteUtilizado).HasColumnType("decimal(18, 2)");
+            });
+
+            modelBuilder.Entity<ValorLimiteCRL>(entity =>
+            {
+                entity.Property(e => e.CPF_CNPJ)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ValorLimiteConcedidoClienteCRL).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.ValorLimiteUtilizadoClienteCLS).HasColumnType("decimal(18, 2)");
             });
 
             OnModelCreatingPartial(modelBuilder);

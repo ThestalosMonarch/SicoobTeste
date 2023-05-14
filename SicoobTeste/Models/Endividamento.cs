@@ -11,7 +11,7 @@ namespace SicoobTeste.Models
         public string CPF_CNPJ { get; set; }
         public string OrigemPrejuizo { get; set; }
         public string SubmodalidadeBacen { get; set; }
-        public int DiasAtrasoParcela { get; set; }
-        public decimal SaldoDevedorDiario { get; set; }
+        public int? DiasAtrasoParcela { get; set; }
+        public decimal? SaldoDevedorDiario { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace SicoobTeste.Models
     {
         public int MediaEntradaSemestralID { get; set; }
         public string CPF_CNPJ { get; set; }
+        public DateTime Datas { get; set; }
         public decimal LancamentoCredito { get; set; }
     }
 }

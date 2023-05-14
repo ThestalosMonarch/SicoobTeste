@@ -9,11 +9,11 @@ namespace SicoobTeste.Models
     {
         public int SerasaDetalhadoID { get; set; }
         public string CPF_CNPJ { get; set; }
-        public int DividaVencida { get; set; }
-        public int PEFIN { get; set; }
         public int Score { get; set; }
         public int AcaoJudicial { get; set; }
+        public int DividaVencida { get; set; }
         public int Falencia { get; set; }
+        public int PEFIN { get; set; }
         public int Protesto { get; set; }
         public int REFIN { get; set; }
         public int Recheque { get; set; }

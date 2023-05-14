@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace SicoobTeste.Models
 {
-    public partial class AplicacaoCota
+    public partial class ValorLimiteCRL
     {
-        public int AplicacaoCotaID { get; set; }
+        public int ValorLimiteCRLID { get; set; }
         public string CPF_CNPJ { get; set; }
-        public decimal SaldoDiarioRDC { get; set; }
-        public decimal SaldoClienteContaCapitalDiario { get; set; }
+        public decimal? ValorLimiteConcedidoClienteCRL { get; set; }
+        public decimal? ValorLimiteUtilizadoClienteCLS { get; set; }
     }
 }

@@ -9,8 +9,13 @@ namespace SicoobTeste.Models
     {
         public int PatrimonioCadastroAssociadoID { get; set; }
         public string CPF_CNPJ { get; set; }
+        public string Nome { get; set; }
         public DateTime DataInicioRelacionamento { get; set; }
         public DateTime DataUltimaRenovacaoCadastral { get; set; }
+        public decimal ValorBemImovel { get; set; }
         public decimal ValorBemMovel { get; set; }
+        public decimal RendaBrutaMensal { get; set; }
+        public DateTime DataNascimento { get; set; }
+        public int Idade { get; set; }
     }
 }

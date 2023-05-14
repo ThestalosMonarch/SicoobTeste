@@ -7,15 +7,14 @@ namespace SicoobTeste.Models
 {
     public partial class IAP
     {
-        //get quantidateProduto and where Column = SIM
         public int IAPID { get; set; }
         public string CPF_CNPJ { get; set; }
-        public string CartaoCredito { get; set; }
-        public string PacoteTarifas { get; set; }
-        public int QuantidadeProduto { get; set; }
+        public int QuantidadeProdutos { get; set; }
         public string SIPAG { get; set; }
         public string Previdencia { get; set; }
         public string CartaoDebito { get; set; }
+        public string CartaoCredito { get; set; }
+        public string PacoteTarifas { get; set; }
         public string ProdutorRural { get; set; }
         public string TituloDescontado { get; set; }
         public string SeguroVida { get; set; }
@@ -27,6 +26,7 @@ namespace SicoobTeste.Models
         public string SeguroAuto { get; set; }
         public string ProdutoRDC { get; set; }
         public string PreAprovado { get; set; }
+        public string Poupanca { get; set; }
         public string LCI { get; set; }
         public string LCA { get; set; }
         public string Investimento { get; set; }
@@ -36,12 +36,14 @@ namespace SicoobTeste.Models
         public string ContaCapital { get; set; }
         public string Servicos { get; set; }
         public string Moto { get; set; }
+        public string Imovel { get; set; }
         public string Automovel { get; set; }
         public string Consorcio { get; set; }
-        public string Cobrança { get; set; }
+        public string Cobranca { get; set; }
         public string ChequeEspecial { get; set; }
         public string DebitoAutomaticoEfetivado { get; set; }
         public string ContaCorrenteInativa { get; set; }
+        public string ContaCorrenteAtiva { get; set; }
         public string SicoobNet { get; set; }
         public string MobileBanking { get; set; }
         public string SicoobEmpresarial { get; set; }

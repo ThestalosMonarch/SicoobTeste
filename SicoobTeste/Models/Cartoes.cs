@@ -9,9 +9,10 @@ namespace SicoobTeste.Models
     {
         public int CartoesID { get; set; }
         public string CPF_CNPJ { get; set; }
-        public decimal DividaConsolidada { get; set; }
-        public decimal LimiteAtribuido { get; set; }
-        public decimal LimiteDisponivel { get; set; }
-        public decimal LimiteUtilizado { get; set; }
+        public DateTime Datas { get; set; }
+        public decimal? DividaConsolidada { get; set; }
+        public decimal? LimiteAtribuido { get; set; }
+        public decimal? LimiteDisponivel { get; set; }
+        public decimal? LimiteUtilizado { get; set; }
     }
 }

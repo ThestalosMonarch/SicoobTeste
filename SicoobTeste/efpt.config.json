@@ -23,7 +23,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[CartoesTrimestre]",
+         "Name": "[dbo].[ChequeEspecial]",
          "ObjectType": 0
       },
       {
@@ -39,7 +39,15 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Garantias]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[IAP]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[LimiteCCL]",
          "ObjectType": 0
       },
       {
@@ -55,11 +63,15 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[MediaEntradaTrimestral]",
+         "Name": "[dbo].[MediaTrimestral]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[PatrimonioCadastroAssociado]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PreAprovado]",
          "ObjectType": 0
       },
       {
@@ -77,11 +89,21 @@
       {
          "Name": "[dbo].[Users]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UtilizacaoLimiteCredito]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ValorLimiteCRL]",
+         "ObjectType": 0
       }
    ],
-   "UiHint": "desktop-2n0ks43.SicoobTeste.dbo",
+   "UiHint": "desktop-2n0ks43.Sicoob.dbo",
+   "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
+   "UseDateOnlyTimeOnly": false,
    "UseDbContextSplitting": false,
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
@@ -89,9 +111,7 @@
    "UseInflector": false,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
-   "UseNoConstructor": false,
    "UseNoDefaultConstructor": false,
-   "UseNoNavigations": false,
    "UseNoObjectFilter": false,
    "UseNodaTime": false,
    "UseNullableReferences": false,

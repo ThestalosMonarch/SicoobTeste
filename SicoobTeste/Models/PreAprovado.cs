@@ -5,10 +5,11 @@ using System.Collections.Generic;
 
 namespace SicoobTeste.Models
 {
-    public partial class MediaEntradaTrimestral
+    public partial class PreAprovado
     {
-        public int MediaEntradaTrimestralID { get; set; }
+        public int PreAprovadoID { get; set; }
         public string CPF_CNPJ { get; set; }
-        public decimal LancamentoCredito { get; set; }
+        public decimal ValorLimiteContratado { get; set; }
+        public decimal ValorLimiteUtilizado { get; set; }
     }
 }

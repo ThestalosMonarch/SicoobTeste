@@ -1,4 +1,5 @@
-﻿@model AnaliseCreditoViewModel
+﻿@using System.Reflection
+@model AnaliseCreditoViewModel
 
 @{
     ViewData["Title"] = "Resultado da Consulta";
@@ -8,360 +9,631 @@
 }
 <head>
     <link rel="stylesheet" href="~/css/ResultStyleSheet.css" asp-append-version="true" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-@if (Model.error == null)
-{
-    <div class="container">
-        <form asp-action="GerarParecer" role="form">
-            @* -------------------Identificação--------------------------------*@
-            <h2>Identificação</h2>
-            <div class="form-group col-12">
-                <label for="code">Nome:</label>
-                <input type="text" class="form-control" size="50" />
-            </div>
-            <div class="form-group col-12">
-                <label for="code">Finalidade:</label>
-                <input type="text" class="form-control" size="50" />
-            </div>
-            <div class="form-group col-12">
-                <label for="code">Proposta da Alçada:</label>
-                <input type="text" class="form-control" placeholder="Colocar o nivel da Alçada" size="40" />
-            </div>
-            <div class="form-row">
-                <div class="form-group ">
-                    <label style="padding-left:10px" for="ServidorPublico">Servidor Publico:</label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="ED., FD, MP" />
-                        <input type="text" class="form-control" placeholder="ATIVO/APOSENTADO" />
-                        <input type="text" class="form-control" placeholder="EFETIVO/COMISSIONADO" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-6">
-                    <label for="Renda Bruta">Renda Bruta</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-6">
-                    <label for="Renda Liquida">Renda Liquida</label>
-                    <input type="text" class="form-control">
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-6">
-                    <label for="Renda Bruta">Demonstrativo do Ano</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-6">
-                    <label for="Renda Liquida">Observação</label>
-                    <input type="text" class="form-control">
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-6">
-                    <label for="Renda Bruta">Demonstrativo do Ano</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-6">
-                    <label for="Renda Liquida">Observação</label>
-                    <input type="text" class="form-control">
-                </div>
-            </div>
-            <br>
-            @* -------------------Relacionamento--------------------------------*@
-            <h2>Relacionamento</h2>
-            <div class="form-group row">
-                <div class="col-3">
-                    <label for="Renda Bruta">Associado Desde:</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-3">
-                    <label for="Renda Liquida">Cota Capital</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-6" style="text-align:center">
-                    <label for="ServidorPublico">IAP:</label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" value="@Html.DisplayFor(model => model.iAP.QuantidadeProduto)" ReadOnly="readonly" />
-                        <input type="text" class="form-control" placeholder="Produtos" ReadOnly="readonly" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-4">
-                    <label for="Renda Bruta">Margem Contribuição</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-8" style="text-align:center">
-                    <label for="ServidorPublico">Cheque Especial</label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Dias de Utilização" />
-                        <input type="text" class="form-control" placeholder="Valor Utilizado" />
-                        <input type="text" class="form-control" placeholder="Valor Contratado" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-12" style="text-align:center">
-                    <label for="ServidorPublico">Limite CCL</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Valor Contratado" />
-                        <input type="text" class="form-control" placeholder="Valor Utilizado" />
-                        <input type="text" class="form-control" placeholder="Vencimento" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="row g-2">
-                    <label class="col-3">Cartão de Crédito</label>
-                    <div class="col-3">
-                        <input type="text" class="form-control" placeholder="Valor Contratado" value="@Html.DisplayFor(model => model.cartoes.LimiteAtribuido)" />
-                    </div>
-                    <div class="col-4">
-                        <input type="text" class="form-control" placeholder="Vencimento" />
-                    </div>
-                    <label class="col-3">Pré Aprovado</label>
-                    <div class="col-3">
-                        <input type="text" class="form-control" placeholder="Valor Contratado" />
-                    </div>
-                    <div class="col-3">
-                        <input type="text" class="form-control" placeholder="Valor Utilizado" />
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <div class="col-3">
-                    <label for="Renda Bruta">Total Empréstimos</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-5">
-                    <label for="Renda Liquida">Portabilidade Salarial</label>
-                    <input type="text" class="form-control" placeholder="Sim/Não/Solicitado">
-                </div>
-                <div class="col-3">
-                    <label for="Renda Liquida">Pacote Tarifa</label>
-                    <input type="text" class="form-control">
-                </div>
 
-            </div>
-            <div class="form-group row">
-                <div class="col-4">
-                    <label for="Renda Liquida">Hist.Uso Modalidade</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-4">
-                    <label>Divida Total</label>
-                    <input type="text" class="form-control">
-                </div>
-            </div>
-            <br>
-            @* -------------------Informações Externas--------------------------------*@
-            <h2>Informações Externas</h2>
-            <div class="form-group row">
-                <div class="col-4">
-                    <label for="Renda Bruta">Bacen a Pagar até 1 ano de:</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-3">
-                    <label for="Renda Liquida">Mensal</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-5" style="text-align:center">
-                    <label for="ServidorPublico">Endividamento Total No Bacen</label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Quantidade" />
-                        <input type="text" class="form-control" placeholder="Produtos" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group col-12">
-                <label for="code">Histórico</label>
-                <input type="text" class="form-control" size="50" />
-            </div>
-            <div class="form-group row">
-                <div class="col-3" style="text-align:center">
-                    <label for="Renda Bruta">Receita</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-3" style="text-align:center">
-                    <label for="Renda Bruta">Score</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-6" style="text-align:center">
-                    <label for="ServidorPublico">Serasa</label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Data" />
-                        <input type="text" class="form-control" placeholder="Valor" />
-                        <input type="text" class="form-control" placeholder="Descrições" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group col-12">
-                <label for="code">Consulta Processo TJ</label>
-                <input type="text" class="form-control" size="50" />
-            </div>
-            <br>
-            @* -------------------Enquadramento--------------------------------*@
-            <h2>Enquadramento</h2>
-            <div class="form-group row">
-                <div class="col-12">
-                    <label for="Renda Bruta">Cadastro Atualizado</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-12">
-                    <label for="Renda Liquida">CRL</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-12">
-                    <label for="Renda Liquida">Risco Da Operação</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-12">
-                    <label for="Renda Liquida">Linha de Crédito</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-8" style="text-align:center">
-                    <label for="ServidorPublico">Condiçõs da Operação</label>
-                    <div class="input-group mb-4">
-                        <input type="text" class="form-control" placeholder="Valor Total" />
-                        <input type="text" class="form-control" placeholder="Quatidade Parcelas" />
-                        <input type="text" class="form-control" placeholder="Valor das Parcelas" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-2">
-                    <label for="Renda Bruta">Vencimento</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-4">
-                    <label for="Renda Liquida">Capacidade de Pagamento</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-3">
-                    <label for="Renda Liquida">Seguro Prestamista</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-3">
-                    <label for="Renda Liquida">Idade</label>
-                    <input type="text" class="form-control">
-                </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <div class="col-3">
-                    <label for="Renda Bruta">Doc.Proposta Completa</label>
-                    <select asp-for="doc_propostaCompleta">
-                        <option value="Sim">Sim</option>
-                        <option value="Não">Não</option>
-                    </select>
-                </div>
-                <div class="col-3">
-                    <label for="Renda Bruta">Ficha cadastral Assinada</label>
-                    <select asp-for="doc_propostaCompleta">
-                        <option value="Sim">Sim</option>
-                        <option value="Não">Não</option>
-                    </select>
-                </div>
-                <div class="col-5">
-                    <label for="Renda Bruta">Anexado a Plataforma de Atendimento?</label>
-                    <select asp-for="doc_propostaCompleta">
-                        <option value="Sim">Sim</option>
-                        <option value="Não">Não</option>
-                    </select>
-                </div>
-                <div class="col-5">
-                    <label for="Renda Bruta">Questionario Conheça seu Cliente</label>
-                    <select asp-for="doc_propostaCompleta">
-                        <option value="Sim">Sim</option>
-                        <option value="Não">Não</option>
-                    </select>
-                </div>
-                <div class="col-6">
-                    <label for="Renda Bruta">Anexado a Plataforma de Atendimento?</label>
-                    <select asp-for="doc_propostaCompleta">
-                        <option value="Sim">Sim</option>
-                        <option value="Não">Não</option>
-                    </select>
-                </div>
-                <div class="col-12">
-                    <label asp-for=outrasCondicoes>Outras Condições</label>
-                    <input asp-for=outrasCondicoes type="text" class="form-control">
-                </div>
-                @* -------------------Garantias--------------------------------*@
-                <h2>Garantias</h2>
-                <div class="form-group row">
-                    <div class="col-5">
-                        <label for="Renda Bruta">Garantias Pessoal</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-4">
-                        <label for="Renda Liquida">Atualizaçao Cadastral</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-3">
-                        <label for="Renda Liquida">Renda</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="Renda Liquida">Observação</label>
-                    <textarea type="text" class="form-control" rows="3"></textarea>
-                </div>
-                <div class="form-group row">
-                    <div class="col-5">
-                        <label for="Renda Bruta">Bacen a Pagar Até 1 Ano</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-5">
-                        <label for="Renda Liquida">Bacen Limite Liberado Não Usado</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-5">
-                        <label for="Renda Bruta">Historico Bacen</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-2">
-                        <label for="Renda Liquida">Receita</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-12" style="text-align:center">
-                        <label for="ServidorPublico">Limite CCL</label>
-                        <div class="input-group">
-                            <div class="col-2">
-                                <input type="text" class="form-control" placeholder="Data" />
-                                <input type="text" class="form-control" placeholder="Valor" />
-                                <input type="text" class="form-control" placeholder="Score" />
-                            </div>
-
-                            <input type="text" class="form-control" placeholder="Restrições e Justificativas" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="Renda Liquida">Garantia Real</label>
-                    <textarea type="text" class="form-control" rows="3"></textarea>
-                </div>
-                @* -------------------Gerar Editar--------------------------------*@
-                <br>
-                <div class="col-12">
-                    <input type="submit" value="Gerar" class="btn btn-info">
-                    <input type="submit" value="Editar" class="btn btn-info">
-                </div>
-            </div>
-        </form>
+<form>
+    <!-- Nome do Cooperado -->
+    <div class="form-group">
+        <label>Nome do Cooperado</label>
+        <input type="text" class="form-control" value="@Model.patrimonioCadastroAssociado.Nome">
     </div>
-}
-
-else
-{
-    <div class="container">
-        <h2>Sem dados para o CPF encontrado</h2>
+    <!-- Finalidade -->
+    <div class="form-group">
+        <label>Finalidade</label>
+        <input type="text" class="form-control" value="@Model.finalidade">
+    </div>
+    <!-- Servidor Público e suas opções-->
+    <div class="form-group">
+        <label for="servidor-publico">Servidor Público?</label>
+        <select id="servidor-publico" class="form-control">
+            <option value="">Selecione uma opção</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
     </div>
 
+    <div id="aposentado-container" class="form-group" style="display: none;">
+        <label for="aposentado">Aposentado ou Ativo?</label>
+        <select id="aposentado" class="form-control">
+            <option value="">Selecione uma opção</option>
+            <option value="aposentado">Aposentado</option>
+            <option value="ativo">Ativo</option>
+        </select>
+    </div>
+
+    <div id="tipo-container" class="form-group" style="display: none;">
+        <label for="tipo">Tipo de Servidor</label>
+        <select id="tipo" class="form-control">
+            <option value="">Selecione uma opção</option>
+            <option value="efetivo">Efetivo</option>
+            <option value="comissionado">Comissionado</option>
+        </select>
+    </div>
+
+    <div id="profissao-container" class="form-group" style="display: none;">
+        <label for="profissao">Profissão</label>
+        <input id="profissao" type="text" class="form-control">
+    </div>
+
+    <div id="empresa-container" class="form-group" style="display: none;">
+        <label for="empresa">Empresa</label>
+        <input id="empresa" type="text" class="form-control">
+    </div>
+
+    <div id="periodo-container" class="form-group" style="display: none;">
+        <label for="periodo">Período na Empresa</label>
+        <input id="periodo" type="text" class="form-control">
+    </div>
+    <!--Valor crédito, Renda Bruta, Renda Liquida-->
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label for="valor-credito">Valor Crédito</label>
+            <input type="text" class="form-control" value="" name="valor-credito">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="renda-bruta">Renda Bruta</label>
+            <input type="text" class="form-control" value="@Model.patrimonioCadastroAssociado.RendaBrutaMensal" name="renda-bruta">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="renda-liquida">Renda Líquida</label>
+            <input type="text" class="form-control" value="" name="renda-liquida">
+        </div>
+    </div>
+    <!--Demonstrativo do ano e Imposto de Renda -->
+    <div class="row">
+        <div class="form-group col-md-6">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="demonstrativoAno" name="demonstrativoAno">
+                <label class="form-check-label" for="demonstrativoAno">
+                    Demonstrativo do Ano (Anexo ao SISBR)
+                </label>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="impostoRenda" name="impostoRenda">
+                <label class="form-check-label" for="impostoRenda">
+                    Imposto de Renda
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <H3>Relacionamento</H3>
+
+    <!--Associado Desde, Cota Capital, Aplicação e Margem de Contribuição -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="associado-desde">Associado Desde</label>
+                <input type="text" class="form-control" value="@Model.patrimonioCadastroAssociado.DataInicioRelacionamento.ToString("dd/MM/yyyy")" name="associado-desde">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="cota-capital">Cota Capital</label>
+                <input type="text" class="form-control" id="cota-capital" value="@Model.patrimonioCadastroAssociado.RendaBrutaMensal" name="cota-capital">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="aplicacao">Aplicação</label>
+                <input type="text" class="form-control" id="aplicacao" value="@Model.aplicacaoCota.SaldoClienteContaCapitalDiario" name="aplicacao">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="margem-contribuicao">Margem de contribuição</label>
+                <input type="text" class="form-control" id="margem-contribuicao" value="@Model.margemContribuicao.ResultadoAssociados" name="margem-contribuicao">
+            </div>
+        </div>
+    </div>
+    <!-- IAP -->
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>IAP</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PropertyInfo propertyInfo in Model.iAP.GetType().GetProperties())
+            {
+                var val = propertyInfo.GetValue(Model.iAP);
+                if (val.ToString().Contains("SIM"))
+                {
+                    <tr>
+                        <td>@propertyInfo.Name</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <!---Cheque especial - Valor Contratado, valor utilizado, dias de utilização-->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <strong>Cheque especial:</strong>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="associado-desde">Valor Contratado</label>
+                <input type="text" class="form-control" id="associado-desde" value="@Model.chequeEspecial?.ValorLimiteCreditoContratato" name="associado-desde">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="aplicacao">Valor Utilizado</label>
+                <input type="text" class="form-control" id="aplicacao" value="@Model.chequeEspecial?.ValorUtilizado" name="aplicacao">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="margem-contribuicao">Dias de Utilização</label>
+                <input type="text" class="form-control" id="margem-contribuicao" value="@Model.chequeEspecial?.QuantidadeDiasUtilizacao" name="margem-contribuicao">
+            </div>
+        </div>
+    </div>
+    <!--Limite CLL - Limite Concedido, Valor Utilizado, Vencimento -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <strong>Limite CCL:</strong>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="associado-desde">Limite Concedido</label>
+                <input type="text" class="form-control" id="associado-desde" value="@Model.limiteCCL?.ValorLimiteConcedido" name="associado-desde">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="aplicacao">Valor Utilizado</label>
+                <input type="text" class="form-control" id="aplicacao" value="@Model.limiteCCL?.ValorLimiteUtilizado" name="aplicacao">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="margem-contribuicao">Vencimento</label>
+                <input type="text" class="form-control" id="margem-contribuicao" value="@Model.limiteCCL?.DataVigenciaLimite" name="margem-contribuicao">
+            </div>
+        </div>
+    </div>
+    <!-- Valor Contratado, Pre aprovado -->
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <strong>Pré Aprovado</strong>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label for="associado-desde">Limite Contratado</label>
+                <input type="text" class="form-control" id="associado-desde" value="@Model.preAprovado?.ValorLimiteContratado" name="associado-desde">
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label for="cota-capital">Pre aprovado </label>
+                <input type="text" class="form-control" id="cota-capital" value="@Model.preAprovado?.ValorLimiteUtilizado" name="cota-capital">
+            </div>
+        </div>
+    </div>
+    <!-- Cartões de crédito -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td class="bg-success" style="text-align:center" colspan="5">Cartão de Crédito</td>
+            </tr>
+            <tr>
+                <td>Valor Dívida Consolidada</td>
+                <td>Valor Limite Atribuído</td>
+                <td>Valor Limite Disponível</td>
+                <td>Valor Limite Utilizado</td>
+                <td>Vencido?</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.cartoes)
+            {
+                string vencimento = "";
+                if (item.DividaConsolidada > item.LimiteUtilizado)
+                { vencimento = "Sim"; }
+                else { vencimento = "Não"; }
+                <tr>
+                    <td>@item.DividaConsolidada</td>
+                    <td>@item.LimiteAtribuido</td>
+                    <td>@item.LimiteDisponivel</td>
+                    <td>@item.LimiteUtilizado</td>
+                    <td>@vencimento</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <!-- Saldo Devedor-->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td class="bg-success" style="text-align:center" colspan="12">Saldo Devedor</td>
+            </tr>
+            <tr>
+                <td>Modalidade Produto</td>
+                <td>Valor Contrato</td>
+                <td>Quantidade de Parcelas</td>
+                <td>Parcelas Abertas</td>
+                <td>Saldo Devedor</td>
+                <td>INAD 15</td>
+                <td>INAD 90</td>
+                <td>Prejuízo</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.endividamentoInterno)
+            {
+
+                <tr>
+                    <td>@item.ModalidadeProduto</td>
+                    <td>@item.ValorContrato</td>
+                    <td>@item.QuantidadeParcelas</td>
+                    <td>@item.QuantidadeParcelasAbertas</td>
+                    <td>@item.SaldoDevedorDiario</td>
+                    @if (item.INAD15 > 0)
+                    {
+                        <td>Sim</td>
+                    }
+                    else
+                    {
+                        <td>Nãp</td>
+                    }
+                    @if (item.INAD90 > 0)
+                    {
+                        <td>Sim</td>
+                    }
+                    else
+                    {
+                        <td>Não</td>
+                    }
+
+                    @if (item.SaldoDevedorDiario > 0)
+                    {
+                        <td>Sim</td>
+                    }
+                    else
+                    {
+                        <td>Não</td>
+                    }
+
+                </tr>
+            }
+            <tr>
+                <td colspan="2">Total de Contrato</td>
+                <td>@Model.TotalContrato</td>
+                <td colspan="4">Divida Total Devedor</td>
+                <td>@Model.TotalDevedor</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- Garantias do Consultado-->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td class="bg-success" style="text-align:center" colspan="5">Garantias</td>
+            </tr>
+            <tr>
+                <td>Garantias Enquadramento</td>
+                <td>Tipo de Garantia Enquadramento</td>
+                <td>Valor Total Garantia</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.garantias)
+            {
+                <tr>
+                    <td>@item.GarantiaEnquadramento</td>
+                    <td>@item.TipoGarantiaEnquadramento</td>
+                    <td>@item.ValorTotalGarantia</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <!-- Media entrada trimestral, media entrda semestral, saldo medio trimestral, pacote tarifa, portabilidade salarial-->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="associado-desde">Media Entrada Trimestral</label>
+                <input type="text" class="form-control" id="associado-desde" value="@Model.MediaEntradaTrimestral" name="associado-desde">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="cota-capital">Media Entrada Semestral</label>
+                <input type="text" class="form-control" id="cota-capital" value="@Model.MediaEntradaSemestral" name="cota-capital">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="aplicacao">Saldo Medio Trimestral</label>
+                <input type="text" class="form-control" id="aplicacao" value="@Model.SaldoMedioTrimestral" name="aplicacao">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="margem-contribuicao">Pacote Tarifa</label>
+                <input type="text" class="form-control" id="margem-contribuicao" value="@Model.tarifas?.Tarifa" name="margem-contribuicao">
+            </div>
+        </div>
+    </div>
+    <!-- Portabilidade Salarial-->
+    <div class="form-group">
+        <label for="servidor-publico">Portabilidade Salarial</label>
+        <select id="servidor-publico" class="form-control">
+            <option value="">Selecione uma opção</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
+    </div>
+
+    <H3>Informações Externas</H3>
+    <!--Serasa-->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td class="bg-success" style="text-align:center" colspan="5">Serasa</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Score</td>
+                <td><input type="text" class="form-control" id="Score" value="@Model.serasaDetalhado?.Score" name="Score"></td>
+            </tr>
+            <tr>
+                <td>Apontamentos</td>
+                <td>Perguntar</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- Endividamento Externos-->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td class="bg-success" style="text-align:center" colspan="5">Endividamento Externo</td>
+            </tr>
+            <tr>
+                <td>Submodalidae BACEN</td>
+                <td>Endividamento até 1 ano</td>
+                <td>Vencido SFN</td>
+                <td>Prejuízo SFN</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.endividamentoExterno)
+            {
+                <tr>
+                    <td>@item.SubmodalidadeBacen</td>
+                    <td>@item.ValorVencerAte360Dias</td>
+                    <td>@item.ValorVencido</td>
+                    <td>@item.Prejuizo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <!-- Receita federal, histórico, processo TJ-->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Receita Federal">
+                <div class="input-group-append">
+                    <a href="#" class="btn btn-outline-secondary">Consultar Receita Federal</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Histórico">
+                <div class="input-group-append">
+                    <a href="#" class="btn btn-outline-secondary">Consultar Histórico</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Processo TJ">
+                <div class="input-group-append">
+                    <a href="#" class="btn btn-outline-secondary">Consultar Processo TJ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Garantias</h3>
+
+    <!-- Tipos de Garantias-->
+    <div class="form-group">
+        <label for="garantia">Tipo de garantia</label>
+        <select id="garantia" class="form-control">
+            <option value="">Selecione uma opção</option>
+            <option value="real">Garantia Real</option>
+            <option value="pessoal">Garantia Pessoal</option>
+        </select>
+    </div>
+    <div id="garantia-real" style="display:none;">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="tipos">Tipos</label>
+                <input type="text" class="form-control" id="tipos">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="valor">Valor</label>
+                <input type="text" class="form-control" id="valor">
+            </div>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="documentacao">
+            <label class="form-check-label" for="documentacao">Documentação anexada?</label>
+        </div>
+    </div>
+    <div id="garantia-pessoal" style="display:none;">
+    </div>
+    <h3>Enquadramento</h3>
+    <!-- Cadastro Atualizado-->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <strong>Cadastro Atualizado:</strong>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="associado-desde">Data da Ultima Atualização</label>
+                <input type="text" class="form-control" id="" value="@Model.patrimonioCadastroAssociado.DataUltimaRenovacaoCadastral.ToString("dd/mm/yyyy")" name="associado-desde">
+            </div>
+        </div>
+    </div>
+    <!--CRL - Letra. Limite Atribuido,  Data da cLASSIFICAÇÃO-->
+    <div class="row">
+        <div class="col-md-1">
+            <div class="form-group">
+                <strong>CRL:</strong>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="margem-contribuicao">Letra</label>
+                <input type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="aplicacao">Limite Atribuido</label>
+                <input type="text" class="form-control" id="aplicacao" value="" name="aplicacao">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="margem-contribuicao">Data da Classificação</label>
+                <input type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
+            </div>
+        </div>
+    </div>
+    <!--Risco da Operação-->
+    <div class="form-group">
+        <label>Risco da Operação</label>
+        <input type="text" class="form-control" value="">
+    </div>
+    <!--Linha de Crédito-->
+    <div class="form-group">
+        <label>Linha de Crédito</label>
+        <input type="text" class="form-control" value="">
+    </div>
+    <!--Condições da Operação-->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <strong>Condições da Operação:</strong>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="margem-contribuicao">Valor Total</label>
+                <input type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="aplicacao">Quantidade de Parcela</label>
+                <input type="text" class="form-control" id="aplicacao" value="" name="aplicacao">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="margem-contribuicao">Valor das Parcelas</label>
+                <input type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
+            </div>
+        </div>
+    </div>
+    <!--Vencimento-->
+    <div class="form-group">
+        <label>Vencimento</label>
+        <input type="text" class="form-control" value="">
+    </div>
+    <!--Capacidade de Pagamento-->
+    <div class="form-group">
+        <label>Capacidade de Pagamento</label>
+        <input type="text" class="form-control" value="@Model.TotalDevedor">
+    </div>
+    <!--Seguro Prestamista-->
+    <div class="form-group">
+        <label>Seguro Prestamista</label>
+        <input type="text" class="form-control" value="">
+    </div>
+    <!-- Doc.Proposta Completa & Ficha Cadastral Assinada -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="doc-proposta">Doc.Proposta Completa</label>
+                <select id="doc-proposta" class="form-control">
+                    <option value="">Selecione uma opção</option>
+                    <option value="real">Sim</option>
+                    <option value="pessoal">Não</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="ficha-cadastral">Ficha Cadastral Assinada</label>
+                <select id="ficha-cadastral" class="form-control">
+                    <option value="">Selecione uma opção</option>
+                    <option value="real">Sim</option>
+                    <option value="pessoal">Não</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Anexada na Plataforma de Atendimento & Questionario conheça seu cliente-->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="doc-proposta">Anexada na Plataforma de Atendimento</label>
+                <select id="doc-proposta" class="form-control">
+                    <option value="">Selecione uma opção</option>
+                    <option value="real">Sim</option>
+                    <option value="pessoal">Não</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="ficha-cadastral">Questionario conheça seu cliente</label>
+                <select id="ficha-cadastral" class="form-control">
+                    <option value="">Selecione uma opção</option>
+                    <option value="real">Sim</option>
+                    <option value="pessoal">Não</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <!-- Outras Condições-->
+    <div class="form-group">
+        <label for="doc-proposta">Outras Condições</label>
+        <select id="doc-proposta" class="form-control">
+            <option value="">Selecione uma opção</option>
+            <option value="real">Sim</option>
+            <option value="pessoal">Não</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Outras Condições</label>
+        <input type="text" class="form-control" value="">
+    </div>
+    <button type="submit" class="btn btn-primary">Gerar Parecer</button>
+</form>
+<script src="~/js/Result.js"></script>
+
+
+@section scripts
+{
 }

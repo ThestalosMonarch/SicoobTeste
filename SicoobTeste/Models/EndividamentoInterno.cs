@@ -14,5 +14,7 @@ namespace SicoobTeste.Models
         public int QuantidadeParcelasAbertas { get; set; }
         public decimal ValorContrato { get; set; }
         public decimal SaldoDevedorDiario { get; set; }
+        public decimal INAD15 { get; set; }
+        public decimal INAD90 { get; set; }
     }
 }

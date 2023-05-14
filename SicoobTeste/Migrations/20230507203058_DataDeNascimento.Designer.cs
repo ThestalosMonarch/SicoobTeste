@@ -12,14 +12,14 @@ using SicoobTeste.Models;
 namespace SicoobTeste.Migrations
 {
     [DbContext(typeof(SicoobTesteContext))]
-    [Migration("20221201210352_Teste2")]
-    partial class Teste2
+    [Migration("20230507203058_DataDeNascimento")]
+    partial class DataDeNascimento
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -27,7 +27,10 @@ namespace SicoobTeste.Migrations
             modelBuilder.Entity("SicoobTeste.Models.AplicacaoCota", b =>
                 {
                     b.Property<int>("AplicacaoCotaID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AplicacaoCotaID"), 1L, 1);
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
@@ -49,7 +52,10 @@ namespace SicoobTeste.Migrations
             modelBuilder.Entity("SicoobTeste.Models.Cartoes", b =>
                 {
                     b.Property<int>("CartoesID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartoesID"), 1L, 1);
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
@@ -57,16 +63,19 @@ namespace SicoobTeste.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
-                    b.Property<decimal>("DividaConsolidada")
+                    b.Property<DateTime>("Datas")
+                        .HasColumnType("date");
+
+                    b.Property<decimal?>("DividaConsolidada")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("LimiteAtribuido")
+                    b.Property<decimal?>("LimiteAtribuido")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("LimiteDisponivel")
+                    b.Property<decimal?>("LimiteDisponivel")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("LimiteUtilizado")
+                    b.Property<decimal?>("LimiteUtilizado")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("CartoesID");
@@ -81,9 +90,9 @@ namespace SicoobTeste.Migrations
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
-                        .HasMaxLength(20)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<decimal>("DividaConsolidada")
                         .HasColumnType("decimal(18,2)");
@@ -102,31 +111,62 @@ namespace SicoobTeste.Migrations
                     b.ToTable("CartoesTrimestre");
                 });
 
-            modelBuilder.Entity("SicoobTeste.Models.Endividamento", b =>
+            modelBuilder.Entity("SicoobTeste.Models.ChequeEspecial", b =>
                 {
-                    b.Property<int>("EndividamentoID")
+                    b.Property<int>("ChequeEspecialID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChequeEspecialID"), 1L, 1);
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
-                        .HasMaxLength(20)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(200)");
 
-                    b.Property<int>("DiasAtrasoParcela")
+                    b.Property<decimal?>("QuantidadeDiasUtilizacao")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("ValorLimiteCreditoContratato")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("ValorSaldoDevedor")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("ValorUtilizado")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ChequeEspecialID");
+
+                    b.ToTable("ChequeEspecial");
+                });
+
+            modelBuilder.Entity("SicoobTeste.Models.Endividamento", b =>
+                {
+                    b.Property<int>("EndividamentoID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EndividamentoID"), 1L, 1);
+
+                    b.Property<string>("CPF_CNPJ")
+                        .HasMaxLength(200)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<int?>("DiasAtrasoParcela")
                         .HasColumnType("int");
 
                     b.Property<string>("OrigemPrejuizo")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .IsUnicode(false)
                         .HasColumnType("varchar(30)");
 
-                    b.Property<decimal>("SaldoDevedorDiario")
+                    b.Property<decimal?>("SaldoDevedorDiario")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SubmodalidadeBacen")
-                        .IsRequired()
                         .HasMaxLength(120)
                         .IsUnicode(false)
                         .HasColumnType("varchar(120)");
@@ -139,31 +179,33 @@ namespace SicoobTeste.Migrations
             modelBuilder.Entity("SicoobTeste.Models.EndividamentoExterno", b =>
                 {
                     b.Property<int>("EndividamentoExternoID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EndividamentoExternoID"), 1L, 1);
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
-                        .HasMaxLength(20)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(200)");
 
-                    b.Property<decimal>("Prejuizo")
+                    b.Property<decimal?>("Prejuizo")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("SaldoDevedor")
+                    b.Property<decimal?>("SaldoDevedor")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SubmodalidadeBacen")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("ValorVencerApos360Dias")
+                    b.Property<decimal?>("ValorVencerApos360Dias")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("ValorVencerAte360Dias")
+                    b.Property<decimal?>("ValorVencerAte360Dias")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("ValorVencido")
+                    b.Property<decimal?>("ValorVencido")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("EndividamentoExternoID");
@@ -174,13 +216,22 @@ namespace SicoobTeste.Migrations
             modelBuilder.Entity("SicoobTeste.Models.EndividamentoInterno", b =>
                 {
                     b.Property<int>("EndividamentoInternoID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EndividamentoInternoID"), 1L, 1);
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
-                        .HasMaxLength(20)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<decimal>("INAD15")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("INAD90")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ModalidadeProduto")
                         .IsRequired()
@@ -205,10 +256,45 @@ namespace SicoobTeste.Migrations
                     b.ToTable("EndividamentoInterno");
                 });
 
+            modelBuilder.Entity("SicoobTeste.Models.Garantias", b =>
+                {
+                    b.Property<int>("GarantiasID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GarantiasID"), 1L, 1);
+
+                    b.Property<string>("CPF_CNPJ")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("GarantiaEnquadramento")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("TipoGarantiaEnquadramento")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<decimal?>("ValorTotalGarantia")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("GarantiasID");
+
+                    b.ToTable("Garantias");
+                });
+
             modelBuilder.Entity("SicoobTeste.Models.IAP", b =>
                 {
                     b.Property<int>("IAPID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IAPID"), 1L, 1);
 
                     b.Property<string>("Automovel")
                         .IsRequired()
@@ -218,9 +304,9 @@ namespace SicoobTeste.Migrations
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
-                        .HasMaxLength(20)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("CartaoCredito")
                         .IsRequired()
@@ -240,7 +326,7 @@ namespace SicoobTeste.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(10)");
 
-                    b.Property<string>("Cobrança")
+                    b.Property<string>("Cobranca")
                         .IsRequired()
                         .HasMaxLength(10)
                         .IsUnicode(false)
@@ -253,6 +339,12 @@ namespace SicoobTeste.Migrations
                         .HasColumnType("varchar(10)");
 
                     b.Property<string>("ContaCapital")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<string>("ContaCorrenteAtiva")
                         .IsRequired()
                         .HasMaxLength(10)
                         .IsUnicode(false)
@@ -283,6 +375,12 @@ namespace SicoobTeste.Migrations
                         .HasColumnType("varchar(10)");
 
                     b.Property<string>("Financiamento")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<string>("Imovel")
                         .IsRequired()
                         .HasMaxLength(10)
                         .IsUnicode(false)
@@ -324,6 +422,12 @@ namespace SicoobTeste.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(10)");
 
+                    b.Property<string>("Poupanca")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(10)");
+
                     b.Property<string>("PreAprovado")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -348,7 +452,7 @@ namespace SicoobTeste.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(10)");
 
-                    b.Property<int>("QuantidadeProduto")
+                    b.Property<int>("QuantidadeProdutos")
                         .HasColumnType("int");
 
                     b.Property<string>("SIPAG")
@@ -428,6 +532,61 @@ namespace SicoobTeste.Migrations
                     b.ToTable("IAP");
                 });
 
+            modelBuilder.Entity("SicoobTeste.Models.LimiteCCL", b =>
+                {
+                    b.Property<int>("LimiteCCLID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LimiteCCLID"), 1L, 1);
+
+                    b.Property<string>("CPF_CNPJ")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("DataVigenciaLimite")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("DescricaoNivelRiscoBACEN")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("DescricaoNivelRiscoCRL")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("ModalidadeBacen")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("NivelRiscoCliente")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<decimal>("ValorLimiteConcedido")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ValorLimiteUtilizado")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("LimiteCCLID");
+
+                    b.ToTable("LimiteCCL");
+                });
+
             modelBuilder.Entity("SicoobTeste.Models.LimiteCredito", b =>
                 {
                     b.Property<int>("LimiteCreditoID")
@@ -435,9 +594,9 @@ namespace SicoobTeste.Migrations
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
-                        .HasMaxLength(20)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<int>("DiasUtilizacaoLimiteCredito")
                         .HasColumnType("int");
@@ -453,34 +612,21 @@ namespace SicoobTeste.Migrations
                     b.ToTable("LimiteCredito");
                 });
 
-            modelBuilder.Entity("SicoobTeste.Models.MargemContribuicao", b =>
-                {
-                    b.Property<int>("MargemContribuicaoID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CPF_CNPJ")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<decimal>("ResultadoAssociados")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("MargemContribuicaoID");
-
-                    b.ToTable("MargemContribuicao");
-                });
-
             modelBuilder.Entity("SicoobTeste.Models.MediaEntradaSemestral", b =>
                 {
                     b.Property<int>("MediaEntradaSemestralID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MediaEntradaSemestralID"), 1L, 1);
+
                     b.Property<string>("CPF_CNPJ")
-                        .HasMaxLength(20)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime>("Datas")
+                        .HasColumnType("date");
 
                     b.Property<decimal>("LancamentoCredito")
                         .HasColumnType("decimal(18,2)");
@@ -498,9 +644,12 @@ namespace SicoobTeste.Migrations
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
-                        .HasMaxLength(20)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime>("DataMovimento")
+                        .HasColumnType("date");
 
                     b.Property<decimal>("LancamentoCredito")
                         .HasColumnType("decimal(18,2)");
@@ -510,16 +659,44 @@ namespace SicoobTeste.Migrations
                     b.ToTable("MediaEntradaTrimestral");
                 });
 
+            modelBuilder.Entity("SicoobTeste.Models.MediaTrimestral", b =>
+                {
+                    b.Property<int>("MediaTrimestralID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MediaTrimestralID"), 1L, 1);
+
+                    b.Property<string>("CPF_CNPJ")
+                        .HasMaxLength(200)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime>("DataMovimento")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("SaldoMedio")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("MediaTrimestralID", "CPF_CNPJ")
+                        .HasName("PK_MediaTrimestralID");
+
+                    b.ToTable("MediaTrimestral");
+                });
+
             modelBuilder.Entity("SicoobTeste.Models.PatrimonioCadastroAssociado", b =>
                 {
                     b.Property<int>("PatrimonioCadastroAssociadoID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PatrimonioCadastroAssociadoID"), 1L, 1);
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
-                        .HasMaxLength(20)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime>("DataInicioRelacionamento")
                         .HasColumnType("date");
@@ -527,12 +704,52 @@ namespace SicoobTeste.Migrations
                     b.Property<DateTime>("DataUltimaRenovacaoCadastral")
                         .HasColumnType("date");
 
+                    b.Property<int>("Idade")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<decimal>("RendaBrutaMensal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ValorBemImovel")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("ValorBemMovel")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("PatrimonioCadastroAssociadoID");
 
                     b.ToTable("PatrimonioCadastroAssociado");
+                });
+
+            modelBuilder.Entity("SicoobTeste.Models.PreAprovado", b =>
+                {
+                    b.Property<int>("PreAprovadoID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PreAprovadoID"), 1L, 1);
+
+                    b.Property<string>("CPF_CNPJ")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<decimal>("ValorLimiteContratado")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ValorLimiteUtilizado")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("PreAprovadoID");
+
+                    b.ToTable("PreAprovado");
                 });
 
             modelBuilder.Entity("SicoobTeste.Models.Roles", b =>
@@ -555,16 +772,19 @@ namespace SicoobTeste.Migrations
             modelBuilder.Entity("SicoobTeste.Models.SerasaDetalhado", b =>
                 {
                     b.Property<int>("SerasaDetalhadoID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SerasaDetalhadoID"), 1L, 1);
 
                     b.Property<int>("AcaoJudicial")
                         .HasColumnType("int");
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
-                        .HasMaxLength(20)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<int>("DividaVencida")
                         .HasColumnType("int");
@@ -595,13 +815,16 @@ namespace SicoobTeste.Migrations
             modelBuilder.Entity("SicoobTeste.Models.Tarifas", b =>
                 {
                     b.Property<int>("TarifasID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TarifasID"), 1L, 1);
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<decimal>("Tarifa")
                         .HasColumnType("decimal(18,2)");
@@ -639,6 +862,31 @@ namespace SicoobTeste.Migrations
                     b.HasIndex("RoleCode");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("SicoobTeste.Models.ValorLimiteCRL", b =>
+                {
+                    b.Property<int>("ValorLimiteCRLID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ValorLimiteCRLID"), 1L, 1);
+
+                    b.Property<string>("CPF_CNPJ")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<decimal?>("ValorLimiteConcedidoClienteCRL")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("ValorLimiteUtilizadoClienteCLS")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ValorLimiteCRLID");
+
+                    b.ToTable("ValorLimiteCRL");
                 });
 
             modelBuilder.Entity("SicoobTeste.Models.Users", b =>
