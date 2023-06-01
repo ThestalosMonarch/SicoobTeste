@@ -73,7 +73,7 @@
         </div>
         <div class="col-md-4 mb-3">
             <label for="renda-bruta">Renda Bruta</label>
-            <input type="text" class="form-control" value="@Model.patrimonioCadastroAssociado.RendaBrutaMensal" name="renda-bruta">
+            <input type="text" class="form-control" id="rendaBrutaMensal" value="@Model.patrimonioCadastroAssociado.RendaBrutaMensal" name="rendaBrutaMensal">
         </div>
         <div class="col-md-4 mb-3">
             <label for="renda-liquida">Renda Líquida</label>
@@ -113,13 +113,13 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label for="cota-capital">Cota Capital</label>
-                <input type="text" class="form-control" id="cota-capital" value="@Model.patrimonioCadastroAssociado.RendaBrutaMensal" name="cota-capital">
+                <input type="text" class="form-control" id="cota-capital" value="@Model.aplicacaoCota.SaldoClienteContaCapitalDiario" name="cota-capital">
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="aplicacao">Aplicação</label>
-                <input type="text" class="form-control" id="aplicacao" value="@Model.aplicacaoCota.SaldoClienteContaCapitalDiario" name="aplicacao">
+                <input type="text" class="form-control" id="aplicacao" value="@Model.patrimonioCadastroAssociado.RendaBrutaMensal" name="aplicacao">
             </div>
         </div>
         <div class="col-md-3">
@@ -152,24 +152,20 @@
 
     <!---Cheque especial - Valor Contratado, valor utilizado, dias de utilização-->
     <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <strong>Cheque especial:</strong>
-            </div>
-        </div>
-        <div class="col-md-3">
+        <label class="col-md-12" style="text-align: center; font-size: 30px">Cheque Especial</label>
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="associado-desde">Valor Contratado</label>
                 <input type="text" class="form-control" id="associado-desde" value="@Model.chequeEspecial?.ValorLimiteCreditoContratato" name="associado-desde">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="aplicacao">Valor Utilizado</label>
                 <input type="text" class="form-control" id="aplicacao" value="@Model.chequeEspecial?.ValorUtilizado" name="aplicacao">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="margem-contribuicao">Dias de Utilização</label>
                 <input type="text" class="form-control" id="margem-contribuicao" value="@Model.chequeEspecial?.QuantidadeDiasUtilizacao" name="margem-contribuicao">
@@ -178,24 +174,20 @@
     </div>
     <!--Limite CLL - Limite Concedido, Valor Utilizado, Vencimento -->
     <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <strong>Limite CCL:</strong>
-            </div>
-        </div>
-        <div class="col-md-3">
+        <label class="col-md-12" style="text-align: center; font-size: 30px">Limite CCL</label>
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="associado-desde">Limite Concedido</label>
                 <input type="text" class="form-control" id="associado-desde" value="@Model.limiteCCL?.ValorLimiteConcedido" name="associado-desde">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="aplicacao">Valor Utilizado</label>
                 <input type="text" class="form-control" id="aplicacao" value="@Model.limiteCCL?.ValorLimiteUtilizado" name="aplicacao">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="margem-contribuicao">Vencimento</label>
                 <input type="text" class="form-control" id="margem-contribuicao" value="@Model.limiteCCL?.DataVigenciaLimite" name="margem-contribuicao">
@@ -204,11 +196,7 @@
     </div>
     <!-- Valor Contratado, Pre aprovado -->
     <div class="row">
-        <div class="col-md-2">
-            <div class="form-group">
-                <strong>Pré Aprovado</strong>
-            </div>
-        </div>
+        <label class="col-md-12" style="text-align: center; font-size: 30px">Pré Aprovado</label>
         <div class="col-md-5">
             <div class="form-group">
                 <label for="associado-desde">Limite Contratado</label>
@@ -237,17 +225,19 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.cartoes)
+            @{
+                var cartao = Model.cartoes?.OrderByDescending(c => c.Datas).FirstOrDefault();
+                // get the item with the most recent date by sorting the list in descending order and selecting the first item
+                // if the list is empty, item will be null
+            }
+            @if (cartao != null) // only display the item if it exists
             {
-                string vencimento = "";
-                if (item.DividaConsolidada > item.LimiteUtilizado)
-                { vencimento = "Sim"; }
-                else { vencimento = "Não"; }
+                string vencimento = cartao.DividaConsolidada > cartao.LimiteUtilizado ? "Sim" : "Não";
                 <tr>
-                    <td>@item.DividaConsolidada</td>
-                    <td>@item.LimiteAtribuido</td>
-                    <td>@item.LimiteDisponivel</td>
-                    <td>@item.LimiteUtilizado</td>
+                    <td>@cartao.DividaConsolidada</td>
+                    <td>@cartao.LimiteAtribuido</td>
+                    <td>@cartao.LimiteDisponivel</td>
+                    <td>@cartao.LimiteUtilizado</td>
                     <td>@vencimento</td>
                 </tr>
             }
@@ -391,7 +381,20 @@
             </tr>
             <tr>
                 <td>Apontamentos</td>
-                <td>Perguntar</td>
+                <td>
+                    <table>
+                        @foreach (var prop in Model.serasaDetalhado.GetType().GetProperties().Skip(3))
+                        {
+                            if (prop.GetValue(Model.serasaDetalhado, null) != null && Convert.ToDecimal(prop.GetValue(Model.serasaDetalhado, null)) > 0)
+                            {
+                                <tr>
+                                    <td>@prop.Name</td>
+                                    <td>@prop.GetValue(Model.serasaDetalhado, null)</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -425,15 +428,15 @@
         <div class="col-md-4">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Receita Federal">
-                <div class="input-group-append">
-                    <a href="#" class="btn btn-outline-secondary">Consultar Receita Federal</a>
+                <div class="input-group-append links-buttons-color">
+                    <a href="https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp" class="btn btn-outline-secondary">Consultar Receita Federal</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Histórico">
-                <div class="input-group-append">
+                <div class="input-group-append links-buttons-color">
                     <a href="#" class="btn btn-outline-secondary">Consultar Histórico</a>
                 </div>
             </div>
@@ -441,7 +444,7 @@
         <div class="col-md-4">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Processo TJ">
-                <div class="input-group-append">
+                <div class="input-group-append links-buttons-color">
                     <a href="#" class="btn btn-outline-secondary">Consultar Processo TJ</a>
                 </div>
             </div>
@@ -476,42 +479,34 @@
         </div>
     </div>
     <div id="garantia-pessoal" style="display:none;">
+        @await Html.PartialAsync("_PartialView")
     </div>
     <h3>Enquadramento</h3>
     <!-- Cadastro Atualizado-->
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="form-group">
-                <strong>Cadastro Atualizado:</strong>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="associado-desde">Data da Ultima Atualização</label>
-                <input type="text" class="form-control" id="" value="@Model.patrimonioCadastroAssociado.DataUltimaRenovacaoCadastral.ToString("dd/mm/yyyy")" name="associado-desde">
+                <label for="associado-desde">Cadastro Atualizado - Data da Ultima Atualização</label>
+                <input type="text" class="form-control" id="" value="@Model.patrimonioCadastroAssociado.DataUltimaRenovacaoCadastral.ToString("dd/MM/yyyy")" name="associado-desde">
             </div>
         </div>
     </div>
     <!--CRL - Letra. Limite Atribuido,  Data da cLASSIFICAÇÃO-->
     <div class="row">
-        <div class="col-md-1">
-            <div class="form-group">
-                <strong>CRL:</strong>
-            </div>
-        </div>
-        <div class="col-md-3">
+        <label class="col-md-12" style="text-align: center; font-size: 30px">CRL</label>
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="margem-contribuicao">Letra</label>
                 <input type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="aplicacao">Limite Atribuido</label>
                 <input type="text" class="form-control" id="aplicacao" value="" name="aplicacao">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="margem-contribuicao">Data da Classificação</label>
                 <input type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
@@ -530,27 +525,23 @@
     </div>
     <!--Condições da Operação-->
     <div class="row">
-        <div class="col-md-3">
+        <label class="col-md-12" style="text-align: center; font-size: 30px">Condições da Operação</label>
+        <div class="col-md-4">
             <div class="form-group">
-                <strong>Condições da Operação:</strong>
+                <label for="Valor-Total">Valor Total</label>
+                <input type="text" class="form-control" id="valor-total-emprestimo" value="" name="valor-total-emprestimo">
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="margem-contribuicao">Valor Total</label>
-                <input type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
-            </div>
-        </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="aplicacao">Quantidade de Parcela</label>
                 <input type="text" class="form-control" id="aplicacao" value="" name="aplicacao">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="margem-contribuicao">Valor das Parcelas</label>
-                <input type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
+                <input type="text" class="form-control" id="ValorParcelas" value="" name="ValorParcelas">
             </div>
         </div>
     </div>
@@ -562,12 +553,12 @@
     <!--Capacidade de Pagamento-->
     <div class="form-group">
         <label>Capacidade de Pagamento</label>
-        <input type="text" class="form-control" value="@Model.TotalDevedor">
+        <input type="text" class="form-control" id="capacidade-pagamento"value="">
     </div>
     <!--Seguro Prestamista-->
     <div class="form-group">
         <label>Seguro Prestamista</label>
-        <input type="text" class="form-control" value="">
+        <input type="text" class="form-control" id="seguro_prestamista" value="">
     </div>
     <!-- Doc.Proposta Completa & Ficha Cadastral Assinada -->
     <div class="row">
@@ -618,22 +609,24 @@
     </div>
     <!-- Outras Condições-->
     <div class="form-group">
-        <label for="doc-proposta">Outras Condições</label>
-        <select id="doc-proposta" class="form-control">
-            <option value="">Selecione uma opção</option>
-            <option value="real">Sim</option>
-            <option value="pessoal">Não</option>
-        </select>
-    </div>
-    <div class="form-group">
         <label>Outras Condições</label>
         <input type="text" class="form-control" value="">
     </div>
     <button type="submit" class="btn btn-primary">Gerar Parecer</button>
+
+    <!-- Hidden Fields - Used for calculations-->
+    <div class="form-group" id="#hiddenFieldsContainer">
+        <input type="hidden" id="valorVencerAte360Dias" value="@Model.endividamentoExterno.Sum(x => x.ValorVencerAte360Dias)" name="valorVencerAte360Dias">
+        <input type="hidden" id="idade" value="@Model.patrimonioCadastroAssociado.Idade" name="idade">
+        <input type="hidden" id="saldoTotalDevedor" value="@Model.TotalDevedor" name="saldoTotalDevedor">
+        <!-- Add more hidden input fields here if needed -->
+    </div>
+
 </form>
 <script src="~/js/Result.js"></script>
 
 
 @section scripts
 {
+
 }

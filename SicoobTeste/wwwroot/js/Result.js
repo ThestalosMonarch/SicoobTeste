@@ -50,3 +50,61 @@ $(document).ready(function () {
     });
 });
 
+
+//Calcular capacidade de pagamento
+$(document).ready(function () {
+    // event listeners to the input fields
+    $("#ValorParcelas").on('input', calculateCapacidadePagamento);
+});
+function calculateCapacidadePagamento() {
+
+    var valorParcelas = parseFloat($("#ValorParcelas").val()) || 0;
+    var rendaBrutaMensal = parseFloat($("#rendaBrutaMensal").val());
+    var valorVencerAte360Dias = parseFloat($('[name$="valorVencerAte360Dias"]').val());
+    // Perform the AJAX request
+    $.ajax({
+        url: "/AnaliseCredito/CalcularCapacidadePagamento",
+        method: "POST",
+        data: {
+            valorParcelas: valorParcelas,
+            rendaBrutaMensal: rendaBrutaMensal,
+            valorVencerAte360Dias: valorVencerAte360Dias
+        },
+        success: function (data) {
+            // Update the value of the field on the page
+            $("#capacidade-pagamento").val(data.toFixed(2));
+        }
+    });
+}
+
+//Calcular Seguro Prestamista
+$(document).ready(function () {
+    // event listeners to the input fields
+    $('[name$="valor-total-emprestimo"]').on('input', calculateSeguroPrestamista);
+});
+
+function calculateSeguroPrestamista() {
+
+    var valorTotalEmprestimo = parseFloat($('[name$="valor-total-emprestimo"]').val());
+    var saldoTotalDevedor = parseFloat($('[name$="saldoTotalDevedor"]').val());
+    var idade = parseInt($('[name$="idade"]').val());
+
+    console.log("valorTotalEmprestimo:", valorTotalEmprestimo);
+    console.log("saldoTotalDevedor:", saldoTotalDevedor);
+    console.log("idade:", idade);
+    $.ajax({
+        url: "/AnaliseCredito/CalcularSeguroPrestamista",
+        method: "POST",
+        data: {
+            valorTotalEmprestimo: valorTotalEmprestimo,
+            saldoTotalDevedor: saldoTotalDevedor,
+            idade: idade
+        },
+        success: function (data) {
+            // Update the value of the field on the page
+            $("#seguro_prestamista").val(data);
+        }
+    });
+}
+//Esconder campos para calculo
+$("#hiddenFieldsContainer").hide();

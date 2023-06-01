@@ -2,6 +2,11 @@
     margin-bottom: 20px;
 }
 
+.links-buttons-color {
+    background-color: #FFC107;
+    border-color: #FFC107;
+}
+
 header {
     background-color: #0d3544
 }
