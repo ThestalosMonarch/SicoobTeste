@@ -12,11 +12,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
-<form>
+<form asp-action="GerarParecer" id="dataForm" method="POST">
     <!-- Nome do Cooperado -->
     <div class="form-group">
         <label>Nome do Cooperado</label>
-        <input type="text" class="form-control" value="@Model.patrimonioCadastroAssociado.Nome">
+        <input type="text" class="form-control" name="" value="@Model.patrimonioCadastroAssociado.Nome">
     </div>
     <!-- Finalidade -->
     <div class="form-group">
@@ -113,43 +113,49 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label for="cota-capital">Cota Capital</label>
-                <input type="text" class="form-control" id="cota-capital" value="@Model.aplicacaoCota.SaldoClienteContaCapitalDiario" name="cota-capital">
+                <input type="text" class="form-control" id="cota-capital" value="@Model.aplicacaoCota?.SaldoClienteContaCapitalDiario" name="cota-capital">
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="aplicacao">Aplicação</label>
-                <input type="text" class="form-control" id="aplicacao" value="@Model.patrimonioCadastroAssociado.RendaBrutaMensal" name="aplicacao">
+                <input type="text" class="form-control" id="aplicacao" value="@Model.aplicacaoCota?.SaldoDiarioRDC" aplicacao">
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="margem-contribuicao">Margem de contribuição</label>
-                <input type="text" class="form-control" id="margem-contribuicao" value="@Model.margemContribuicao.ResultadoAssociados" name="margem-contribuicao">
+                <input type="text" class="form-control" id="margem-contribuicao" value="@Model.margemContribuicao?.ResultadoAssociados" name="margem-contribuicao">
             </div>
         </div>
     </div>
     <!-- IAP -->
-    <table class="table table-bordered text-center">
-        <thead>
-            <tr>
-                <th>IAP</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (PropertyInfo propertyInfo in Model.iAP.GetType().GetProperties())
-            {
-                var val = propertyInfo.GetValue(Model.iAP);
-                if (val.ToString().Contains("SIM"))
+    @if (Model.iAP != null)
+    {
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>IAP</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (PropertyInfo propertyInfo in Model.iAP.GetType().GetProperties())
                 {
-                    <tr>
-                        <td>@propertyInfo.Name</td>
-                    </tr>
+                    var val = propertyInfo.GetValue(Model.iAP);
+                    if (val.ToString().Contains("SIM"))
+                    {
+                        <tr>
+                            <td>@propertyInfo.Name</td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
-
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Sem dados do IAP.</p>
+    }
     <!---Cheque especial - Valor Contratado, valor utilizado, dias de utilização-->
     <div class="row">
         <label class="col-md-12" style="text-align: center; font-size: 30px">Cheque Especial</label>
@@ -244,91 +250,98 @@
         </tbody>
     </table>
     <!-- Saldo Devedor-->
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <td class="bg-success" style="text-align:center" colspan="12">Saldo Devedor</td>
-            </tr>
-            <tr>
-                <td>Modalidade Produto</td>
-                <td>Valor Contrato</td>
-                <td>Quantidade de Parcelas</td>
-                <td>Parcelas Abertas</td>
-                <td>Saldo Devedor</td>
-                <td>INAD 15</td>
-                <td>INAD 90</td>
-                <td>Prejuízo</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.endividamentoInterno)
-            {
-
+    @if (Model.endividamentoInterno != null)
+    {
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>@item.ModalidadeProduto</td>
-                    <td>@item.ValorContrato</td>
-                    <td>@item.QuantidadeParcelas</td>
-                    <td>@item.QuantidadeParcelasAbertas</td>
-                    <td>@item.SaldoDevedorDiario</td>
-                    @if (item.INAD15 > 0)
-                    {
-                        <td>Sim</td>
-                    }
-                    else
-                    {
-                        <td>Nãp</td>
-                    }
-                    @if (item.INAD90 > 0)
-                    {
-                        <td>Sim</td>
-                    }
-                    else
-                    {
-                        <td>Não</td>
-                    }
-
-                    @if (item.SaldoDevedorDiario > 0)
-                    {
-                        <td>Sim</td>
-                    }
-                    else
-                    {
-                        <td>Não</td>
-                    }
-
+                    <td class="bg-success" style="text-align:center" colspan="12">Saldo Devedor</td>
                 </tr>
-            }
-            <tr>
-                <td colspan="2">Total de Contrato</td>
-                <td>@Model.TotalContrato</td>
-                <td colspan="4">Divida Total Devedor</td>
-                <td>@Model.TotalDevedor</td>
-            </tr>
-        </tbody>
-    </table>
+                <tr>
+                    <td>Modalidade Produto</td>
+                    <td>Valor Contrato</td>
+                    <td>Quantidade de Parcelas</td>
+                    <td>Parcelas Abertas</td>
+                    <td>Saldo Devedor</td>
+                    <td>INAD 15</td>
+                    <td>INAD 90</td>
+                    <td>Prejuízo</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.endividamentoInterno)
+                {
+
+                    <tr>
+                        <td>@item.ModalidadeProduto</td>
+                        <td>@item.ValorContrato</td>
+                        <td>@item.QuantidadeParcelas</td>
+                        <td>@item.QuantidadeParcelasAbertas</td>
+                        <td>@item.SaldoDevedorDiario</td>
+                        @if (item.INAD15 > 0)
+                        {
+                            <td>Sim</td>
+                        }
+                        else
+                        {
+                            <td>Não</td>
+                        }
+                        @if (item.INAD90 > 0)
+                        {
+                            <td>Sim</td>
+                        }
+                        else
+                        {
+                            <td>Não</td>
+                        }
+
+                        @if (item.SaldoDevedorDiario > 0)
+                        {
+                            <td>Sim</td>
+                        }
+                        else
+                        {
+                            <td>Não</td>
+                        }
+
+                    </tr>
+                }
+                <tr>
+                    <td colspan="2">Total de Contrato</td>
+                    <td>@Model.TotalContrato</td>
+                    <td colspan="4">Divida Total Devedor</td>
+                    <td>@Model.TotalDevedor</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
     <!-- Garantias do Consultado-->
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <td class="bg-success" style="text-align:center" colspan="5">Garantias</td>
-            </tr>
-            <tr>
-                <td>Garantias Enquadramento</td>
-                <td>Tipo de Garantia Enquadramento</td>
-                <td>Valor Total Garantia</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.garantias)
-            {
+    @if (Model.garantias != null)
+    {
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>@item.GarantiaEnquadramento</td>
-                    <td>@item.TipoGarantiaEnquadramento</td>
-                    <td>@item.ValorTotalGarantia</td>
+                    <td class="bg-success" style="text-align:center" colspan="5">Garantias</td>
                 </tr>
-            }
-        </tbody>
-    </table>
+                <tr>
+                    <td>Garantias Enquadramento</td>
+                    <td>Tipo de Garantia Enquadramento</td>
+                    <td>Valor Total Garantia</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.garantias)
+                {
+                    <tr>
+                        <td>@item.GarantiaEnquadramento</td>
+                        <td>@item.TipoGarantiaEnquadramento</td>
+                        <td>@item.ValorTotalGarantia</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
     <!-- Media entrada trimestral, media entrda semestral, saldo medio trimestral, pacote tarifa, portabilidade salarial-->
     <div class="row">
         <div class="col-md-3">
@@ -368,36 +381,43 @@
 
     <H3>Informações Externas</H3>
     <!--Serasa-->
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <td class="bg-success" style="text-align:center" colspan="5">Serasa</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Score</td>
-                <td><input type="text" class="form-control" id="Score" value="@Model.serasaDetalhado?.Score" name="Score"></td>
-            </tr>
-            <tr>
-                <td>Apontamentos</td>
-                <td>
-                    <table>
-                        @foreach (var prop in Model.serasaDetalhado.GetType().GetProperties().Skip(3))
-                        {
-                            if (prop.GetValue(Model.serasaDetalhado, null) != null && Convert.ToDecimal(prop.GetValue(Model.serasaDetalhado, null)) > 0)
+    @if (Model.serasaDetalhado != null)
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td class="bg-success" style="text-align:center" colspan="5">Serasa</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Score</td>
+                    <td><input type="text" class="form-control" id="Score" value="@Model.serasaDetalhado?.Score" name="Score"></td>
+                </tr>
+                <tr>
+                    <td>Apontamentos</td>
+                    <td>
+                        <table>
+                            @foreach (var prop in Model.serasaDetalhado.GetType().GetProperties().Skip(3))
                             {
-                                <tr>
-                                    <td>@prop.Name</td>
-                                    <td>@prop.GetValue(Model.serasaDetalhado, null)</td>
-                                </tr>
+                                if (prop.GetValue(Model.serasaDetalhado, null) != null && Convert.ToDecimal(prop.GetValue(Model.serasaDetalhado, null)) > 0)
+                                {
+                                    <tr>
+                                        <td>@prop.Name</td>
+                                        <td>@prop.GetValue(Model.serasaDetalhado, null)</td>
+                                    </tr>
+                                }
                             }
-                        }
-                    </table>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Sem dados do Serasa.</p>
+    }
     <!-- Endividamento Externos-->
     <table class="table table-bordered">
         <thead>
@@ -553,7 +573,7 @@
     <!--Capacidade de Pagamento-->
     <div class="form-group">
         <label>Capacidade de Pagamento</label>
-        <input type="text" class="form-control" id="capacidade-pagamento"value="">
+        <input type="text" class="form-control" id="capacidade-pagamento" value="">
     </div>
     <!--Seguro Prestamista-->
     <div class="form-group">
@@ -611,6 +631,14 @@
     <div class="form-group">
         <label>Outras Condições</label>
         <input type="text" class="form-control" value="">
+    </div>
+    <div class="form-group">
+        <label for="parecer-favoravel">Parecer Favoravel?</label>
+        <select id="parecer-favoravel" name="parecerFavoravel" class="form-control">
+            <option value="">Selecione uma opção</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Gerar Parecer</button>
 

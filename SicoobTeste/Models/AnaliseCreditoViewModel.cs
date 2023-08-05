@@ -32,11 +32,11 @@ namespace SicoobTeste.Models
         public List<EndividamentoExterno>? endividamentoExterno { get; set; }
         
         //Variáveis que são somas de outras informções
-        public decimal TotalContrato { get; set; }
-        public decimal TotalDevedor { get; set; }
-        public decimal MediaEntradaTrimestral { get; set; }
-        public decimal MediaEntradaSemestral { get; set; }
-        public decimal SaldoMedioTrimestral { get; set; }
-        public decimal TotalEmprestimo { get; set; }
+        public decimal? TotalContrato { get; set; }
+        public decimal? TotalDevedor { get; set; }
+        public decimal? MediaEntradaTrimestral { get; set; }
+        public decimal? MediaEntradaSemestral { get; set; }
+        public decimal? SaldoMedioTrimestral { get; set; }
+        public decimal? TotalEmprestimo { get; set; }
     }
 }
