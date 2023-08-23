@@ -48,11 +48,9 @@ namespace SicoobTeste.Controllers
                 SerasaDetalhado? serasaDetalhado = _context.SerasaDetalhado.FirstOrDefault(p => p.CPF_CNPJ == identificador);
                 Tarifas? tarifas = _context.Tarifas.FirstOrDefault(p => p.CPF_CNPJ == identificador);
 
-
                 decimal? mediaEntradaTrimestral = 0;
                 decimal? mediaEntradaSemestral = 0;
                 decimal? saldoMedioTrimestral = 0;
-
 
                 try
                 {
@@ -90,7 +88,7 @@ namespace SicoobTeste.Controllers
                     analiseCredito.tarifas = tarifas;
                     analiseCredito.MediaEntradaSemestral = mediaEntradaTrimestral;
                     analiseCredito.MediaEntradaTrimestral = mediaEntradaTrimestral;
-                    analiseCredito.MediaEntradaSemestral = mediaEntradaSemestral;
+                    analiseCredito.SaldoMedioTrimestral = saldoMedioTrimestral;
                     //calcular valores para variáveis de cálculo
                     _service.CalculateTotalsSaldoDevedor(analiseCredito);
                     _service.GetCorrectIdade(analiseCredito);
@@ -110,12 +108,12 @@ namespace SicoobTeste.Controllers
 
             //Adicionar linhas com as informações
             StringBuilder sb = new StringBuilder();
-            
+            sb.AppendLine("Informações Gerais");
             sb.AppendLine($"Nome: {model.patrimonioCadastroAssociado.Nome}");
             sb.AppendLine($"Idade: {model.patrimonioCadastroAssociado.Idade}");
             sb.AppendLine($"Finalidade: {model.finalidade}");
             sb.AppendLine($"Associado Desde: {model.patrimonioCadastroAssociado.DataInicioRelacionamento}");
-            sb.AppendLine($"Ultima renovação cadastral: {model.patrimonioCadastroAssociado.DataUltimaRenovacaoCadastral}");
+            sb.AppendLine($"Ultima renovação cadastral: {model.patrimonioCadastroAssociado.DataUltimaRenovacaoCadastral.ToString("dd/MM/yyyy")}");
             sb.AppendLine($"Total Devedor: {model.TotalDevedor}");
             //sb.AppendLine($"Valor Crédito: {}");
             //sb.AppendLine($"Renda Líquida: {}");
@@ -208,6 +206,7 @@ namespace SicoobTeste.Controllers
             sb.AppendLine($"Media Entrada Semestral: {model.MediaEntradaSemestral}");
             sb.AppendLine($"Saldo Medio Trimestral: {model.SaldoMedioTrimestral}");
             sb.AppendLine($"Pacote Tarifa: {model.tarifas?.Tarifa}");
+            sb.AppendLine("Informações Serasa");
             if (model.serasaDetalhado != null)
             {
                 sb.AppendLine($"Serasa: {model.serasaDetalhado.Score}");

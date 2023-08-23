@@ -202,7 +202,7 @@
     </div>
     <!-- Valor Contratado, Pre aprovado -->
     <div class="row">
-        <label class="col-md-12" style="text-align: center; font-size: 30px">Pré Aprovado</label>
+        <label class="col-md-12" style="text-align: center; font-size: 30px">Limite Utilizado Pré Aprovado</label>
         <div class="col-md-5">
             <div class="form-group">
                 <label for="associado-desde">Limite Contratado</label>
@@ -271,7 +271,7 @@
             <tbody>
                 @foreach (var item in Model.endividamentoInterno)
                 {
-
+                    
                     <tr>
                         <td>@item.ModalidadeProduto</td>
                         <td>@item.ValorContrato</td>
@@ -295,7 +295,7 @@
                             <td>Não</td>
                         }
 
-                        @if (item.SaldoDevedorDiario > 0)
+                        @if (item.SaldoDevedorDiario > 0 && item.ModalidadeProduto.Contains("PREJUIZO"))
                         {
                             <td>Sim</td>
                         }
@@ -303,7 +303,6 @@
                         {
                             <td>Não</td>
                         }
-
                     </tr>
                 }
                 <tr>

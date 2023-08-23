@@ -1,4 +1,6 @@
 ﻿namespace SicoobTeste.Services;
+
+using Microsoft.AspNetCore.Html;
 using SicoobTeste.Models;
 using System.Collections;
 using System.Globalization;
@@ -34,6 +36,26 @@ public class AnaliseCreditoService
             age--;
         }
         model.patrimonioCadastroAssociado.Idade = age;
+    }
+    public static IHtmlContent FormatContent(string content)
+    {
+        var lines = content.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        var formattedLines = new List<string>();
+
+        foreach (var line in lines)
+        {
+            if (line.Contains("Informações Gerais", StringComparison.OrdinalIgnoreCase) ||
+                line.Contains("Informações Serasa", StringComparison.OrdinalIgnoreCase))
+            {
+                formattedLines.Add($"<h1>{line}</h1>");
+            }
+            else
+            {
+                formattedLines.Add(line);
+            }
+        }
+
+        return new HtmlString(string.Join("<br>", formattedLines));
     }
 }
 

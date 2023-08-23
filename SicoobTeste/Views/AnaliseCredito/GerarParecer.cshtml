@@ -1,4 +1,6 @@
-﻿@model string
+﻿
+@using SicoobTeste.Services
+@model string
  @* -------------------Mostrar parecer atualizado com as informações inseridades--------------------------------*@
 @{
     ViewData["Title"] = "Parecer Realizado";
@@ -13,5 +15,5 @@
 <div>
     <h2>Gerado!</h2>
     <h1>Informações:</h1>
-    <p>@Model</p>
+    @Html.Raw(SicoobTeste.Services.AnaliseCreditoService.FormatContent(Model))
 </div>
