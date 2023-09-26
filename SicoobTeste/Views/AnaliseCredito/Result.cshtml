@@ -21,12 +21,12 @@
     <!-- Finalidade -->
     <div class="form-group">
         <label>Finalidade</label>
-        <input type="text" class="form-control" value="@Model.finalidade">
+        <input asp-for="formValues.finalidade" type="text" class="form-control">
     </div>
     <!-- Servidor Público e suas opções-->
     <div class="form-group">
         <label for="servidor-publico">Servidor Público?</label>
-        <select id="servidor-publico" class="form-control">
+        <select id="servidor-publico" asp-for="formValues.servidorPublico" class="form-control">
             <option value="">Selecione uma opção</option>
             <option value="sim">Sim</option>
             <option value="nao">Não</option>
@@ -35,7 +35,7 @@
 
     <div id="aposentado-container" class="form-group" style="display: none;">
         <label for="aposentado">Aposentado ou Ativo?</label>
-        <select id="aposentado" class="form-control">
+        <select id="aposentado" asp-for="formValues.situacao" class="form-control">
             <option value="">Selecione uma opção</option>
             <option value="aposentado">Aposentado</option>
             <option value="ativo">Ativo</option>
@@ -44,7 +44,7 @@
 
     <div id="tipo-container" class="form-group" style="display: none;">
         <label for="tipo">Tipo de Servidor</label>
-        <select id="tipo" class="form-control">
+        <select id="tipo" asp-for="formValues.tipoServidor" class="form-control">
             <option value="">Selecione uma opção</option>
             <option value="efetivo">Efetivo</option>
             <option value="comissionado">Comissionado</option>
@@ -52,31 +52,31 @@
     </div>
 
     <div id="profissao-container" class="form-group" style="display: none;">
-        <label for="profissao">Profissão</label>
-        <input id="profissao" type="text" class="form-control">
+        <label  type="text">Profissão</label>
+        <input asp-for="formValues.profissao" id="profissao" type="text" class="form-control">
     </div>
 
     <div id="empresa-container" class="form-group" style="display: none;">
-        <label for="empresa">Empresa</label>
-        <input id="empresa" type="text" class="form-control">
+        <label>Empresa</label>
+        <input asp-for="formValues.empresa" id="empresa" type="text" class="form-control">
     </div>
 
     <div id="periodo-container" class="form-group" style="display: none;">
-        <label for="periodo">Período na Empresa</label>
-        <input id="periodo" type="text" class="form-control">
+        <label>Período na Empresa</label>
+        <input asp-for="formValues.periodo_Empresa" id="periodo" type="text" class="form-control">
     </div>
     <!--Valor crédito, Renda Bruta, Renda Liquida-->
     <div class="row">
         <div class="col-md-4 mb-3">
-            <label for="valor-credito">Valor Crédito</label>
+            <label asp-for="formValues.ValorCredito">Valor Crédito</label>
             <input type="text" class="form-control" value="" name="valor-credito">
         </div>
         <div class="col-md-4 mb-3">
-            <label for="renda-bruta">Renda Bruta</label>
+            <label asp-for="@Model.patrimonioCadastroAssociado.RendaBrutaMensal">Renda Bruta</label>
             <input type="text" class="form-control" id="rendaBrutaMensal" value="@Model.patrimonioCadastroAssociado.RendaBrutaMensal" name="rendaBrutaMensal">
         </div>
         <div class="col-md-4 mb-3">
-            <label for="renda-liquida">Renda Líquida</label>
+            <label asp-for="formValues.rendaLiquida">Renda Líquida</label>
             <input type="text" class="form-control" value="" name="renda-liquida">
         </div>
     </div>
@@ -84,22 +84,21 @@
     <div class="row">
         <div class="form-group col-md-6">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="demonstrativoAno" name="demonstrativoAno">
-                <label class="form-check-label" for="demonstrativoAno">
+                <input class="form-check-input" type="checkbox" id="demonstrativoAno" name="demonstrativoAno" asp-for="formValues.demonstrativoano">
+                <label class="form-check-label">
                     Demonstrativo do Ano (Anexo ao SISBR)
                 </label>
             </div>
         </div>
         <div class="form-group col-md-6">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="impostoRenda" name="impostoRenda">
-                <label class="form-check-label" for="impostoRenda">
+                <input class="form-check-input" type="checkbox" id="impostoRenda" name="impostoRenda" asp-for="formValues.impostorenda">
+                <label class="form-check-label">
                     Imposto de Renda
                 </label>
             </div>
         </div>
     </div>
-
     <H3>Relacionamento</H3>
 
     <!--Associado Desde, Cota Capital, Aplicação e Margem de Contribuição -->
@@ -183,19 +182,19 @@
         <label class="col-md-12" style="text-align: center; font-size: 30px">Limite CCL</label>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="associado-desde">Limite Concedido</label>
+                <label asp-for="formValues.limiteConcedidoCLL">Limite Concedido</label>
                 <input type="text" class="form-control" id="associado-desde" value="@Model.limiteCCL?.ValorLimiteConcedido" name="associado-desde">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="aplicacao">Valor Utilizado</label>
+                <label asp-for="formValues.valorUtilizadoCLL">Valor Utilizado</label>
                 <input type="text" class="form-control" id="aplicacao" value="@Model.limiteCCL?.ValorLimiteUtilizado" name="aplicacao">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="margem-contribuicao">Vencimento</label>
+                <label asp-for="formValues.vencimentoCLL">Vencimento</label>
                 <input type="text" class="form-control" id="margem-contribuicao" value="@Model.limiteCCL?.DataVigenciaLimite" name="margem-contribuicao">
             </div>
         </div>
@@ -271,7 +270,7 @@
             <tbody>
                 @foreach (var item in Model.endividamentoInterno)
                 {
-                    
+
                     <tr>
                         <td>@item.ModalidadeProduto</td>
                         <td>@item.ValorContrato</td>
@@ -371,10 +370,10 @@
     <!-- Portabilidade Salarial-->
     <div class="form-group">
         <label for="servidor-publico">Portabilidade Salarial</label>
-        <select id="servidor-publico" class="form-control">
+        <select asp-for="formValues.portabilidadesalarial" id="servidor-publico" class="form-control">
             <option value="">Selecione uma opção</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
+            <option value="@true">Sim</option>
+            <option value="@false">Não</option>
         </select>
     </div>
 
@@ -446,7 +445,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Receita Federal">
+                <input asp-for ="formValues.receitaFederal" type="text" class="form-control" placeholder="Receita Federal">
                 <div class="input-group-append links-buttons-color">
                     <a href="https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp" class="btn btn-outline-secondary">Consultar Receita Federal</a>
                 </div>
@@ -454,7 +453,7 @@
         </div>
         <div class="col-md-4">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Histórico">
+                <input asp-for="formValues.historico" type="text" class="form-control" placeholder="Histórico">
                 <div class="input-group-append links-buttons-color">
                     <a href="#" class="btn btn-outline-secondary">Consultar Histórico</a>
                 </div>
@@ -462,7 +461,7 @@
         </div>
         <div class="col-md-4">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Processo TJ">
+                <input asp-for="formValues.processoTJ" type="text" class="form-control" placeholder="Processo TJ">
                 <div class="input-group-append links-buttons-color">
                     <a href="#" class="btn btn-outline-secondary">Consultar Processo TJ</a>
                 </div>
@@ -474,21 +473,21 @@
 
     <!-- Tipos de Garantias-->
     <div class="form-group">
-        <label for="garantia">Tipo de garantia</label>
-        <select id="garantia" class="form-control">
+        <label asp-for="formValues.tipoGarantia">Tipo de garantia</label>
+        <select id="garantia" name="formValues.tipoGarantia" class="form-control">
             <option value="">Selecione uma opção</option>
-            <option value="real">Garantia Real</option>
-            <option value="pessoal">Garantia Pessoal</option>
+            <option value="Real">Garantia Real</option>
+            <option value="Pessoal">Garantia Pessoal</option>
         </select>
     </div>
     <div id="garantia-real" style="display:none;">
         <div class="row">
             <div class="form-group col-md-4">
-                <label for="tipos">Tipos</label>
+                <label asp-for="formValues.garantiaRealTipos">Tipos</label>
                 <input type="text" class="form-control" id="tipos">
             </div>
             <div class="form-group col-md-4">
-                <label for="valor">Valor</label>
+                <label asp-for="formValues.garantiaRealValor">Valor</label>
                 <input type="text" class="form-control" id="valor">
             </div>
         </div>
@@ -516,31 +515,31 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="margem-contribuicao">Letra</label>
-                <input type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
+                <input asp-for="formValues.letra" type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="aplicacao">Limite Atribuido</label>
-                <input type="text" class="form-control" id="aplicacao" value="" name="aplicacao">
+                <input asp-for="formValues.limiteAtribuidoCRL" type="text" class="form-control" id="aplicacao" value="" name="aplicacao">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="margem-contribuicao">Data da Classificação</label>
-                <input type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
+                <input asp-for="formValues.limiteAtribuidoCRL" type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
             </div>
         </div>
     </div>
     <!--Risco da Operação-->
     <div class="form-group">
         <label>Risco da Operação</label>
-        <input type="text" class="form-control" value="">
+        <input asp-for="formValues.riscoOperacao" type="text" class="form-control" value="">
     </div>
     <!--Linha de Crédito-->
     <div class="form-group">
         <label>Linha de Crédito</label>
-        <input type="text" class="form-control" value="">
+        <input asp-for="formValues.linhaCredito" type="text" class="form-control" value="">
     </div>
     <!--Condições da Operação-->
     <div class="row">
@@ -548,43 +547,43 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="Valor-Total">Valor Total</label>
-                <input type="text" class="form-control" id="valor-total-emprestimo" value="" name="valor-total-emprestimo">
+                <input asp-for="formValues.condicoesOperacaValorTotal" type="text" class="form-control" id="valor-total-emprestimo" value="" >
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="aplicacao">Quantidade de Parcela</label>
-                <input type="text" class="form-control" id="aplicacao" value="" name="aplicacao">
+                <input asp-for="formValues.condicoesOperacaQuantidadeParcela" type="text" class="form-control" id="aplicacao" value="">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="margem-contribuicao">Valor das Parcelas</label>
-                <input type="text" class="form-control" id="ValorParcelas" value="" name="ValorParcelas">
+                <input asp-for="formValues.condicoesOperacaValorParcelas" type="text" class="form-control" id="ValorParcelas" value="">
             </div>
         </div>
     </div>
     <!--Vencimento-->
     <div class="form-group">
         <label>Vencimento</label>
-        <input type="text" class="form-control" value="">
+        <input asp-for="formValues.condicoesOperacaVencimento" type="text" class="form-control" value="">
     </div>
     <!--Capacidade de Pagamento-->
     <div class="form-group">
         <label>Capacidade de Pagamento</label>
-        <input type="text" class="form-control" id="capacidade-pagamento" value="">
+        <input asp-for="formValues.condicoesOperacaCapacidadePagamento" type="text" class="form-control" id="capacidade-pagamento" value="">
     </div>
     <!--Seguro Prestamista-->
     <div class="form-group">
         <label>Seguro Prestamista</label>
-        <input type="text" class="form-control" id="seguro_prestamista" value="">
+        <input asp-for="formValues.seguroPrestamista" type="text" class="form-control" id="seguro_prestamista" value="">
     </div>
     <!-- Doc.Proposta Completa & Ficha Cadastral Assinada -->
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
                 <label for="doc-proposta">Doc.Proposta Completa</label>
-                <select id="doc-proposta" class="form-control">
+                <select asp-for="formValues.docPropostaCompleta" id="doc-proposta" class="form-control">
                     <option value="">Selecione uma opção</option>
                     <option value="real">Sim</option>
                     <option value="pessoal">Não</option>
@@ -594,7 +593,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="ficha-cadastral">Ficha Cadastral Assinada</label>
-                <select id="ficha-cadastral" class="form-control">
+                <select asp-for="formValues.fichaCadastralAssinada" id="ficha-cadastral" class="form-control">
                     <option value="">Selecione uma opção</option>
                     <option value="real">Sim</option>
                     <option value="pessoal">Não</option>
@@ -608,7 +607,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="doc-proposta">Anexada na Plataforma de Atendimento</label>
-                <select id="doc-proposta" class="form-control">
+                <select asp-for="formValues.plataformaAtendimento" id="doc-proposta" class="form-control">
                     <option value="">Selecione uma opção</option>
                     <option value="real">Sim</option>
                     <option value="pessoal">Não</option>
@@ -618,7 +617,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="ficha-cadastral">Questionario conheça seu cliente</label>
-                <select id="ficha-cadastral" class="form-control">
+                <select asp-for="formValues.conhecaCliente" id="ficha-cadastral" class="form-control">
                     <option value="">Selecione uma opção</option>
                     <option value="real">Sim</option>
                     <option value="pessoal">Não</option>
@@ -629,11 +628,11 @@
     <!-- Outras Condições-->
     <div class="form-group">
         <label>Outras Condições</label>
-        <input type="text" class="form-control" value="">
+        <input asp-for="formValues.outrasCondicoes" type="text" class="form-control" value="">
     </div>
     <div class="form-group">
         <label for="parecer-favoravel">Parecer Favoravel?</label>
-        <select id="parecer-favoravel" name="parecerFavoravel" class="form-control">
+        <select asp-for="formValues.parecerFavoravel" id="parecer-favoravel" name="parecerFavoravel" class="form-control">
             <option value="">Selecione uma opção</option>
             <option value="sim">Sim</option>
             <option value="nao">Não</option>

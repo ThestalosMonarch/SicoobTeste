@@ -45,7 +45,16 @@ public class AnaliseCreditoService
         foreach (var line in lines)
         {
             if (line.Contains("Informações Gerais", StringComparison.OrdinalIgnoreCase) ||
-                line.Contains("Informações Serasa", StringComparison.OrdinalIgnoreCase))
+                line.Contains("Informações Serasa", StringComparison.OrdinalIgnoreCase) ||
+                line.Contains("Relacionamento", StringComparison.OrdinalIgnoreCase) ||
+                line.Equals("Cheque Especial", StringComparison.OrdinalIgnoreCase) ||
+                line.Contains("Limite CCL", StringComparison.OrdinalIgnoreCase) ||
+                line.Contains("Limite Utilizado Pré Aprovado", StringComparison.OrdinalIgnoreCase) ||
+                line.Contains("Informações Externaso", StringComparison.OrdinalIgnoreCase) ||
+                line.Contains("Garantias", StringComparison.OrdinalIgnoreCase) ||
+                line.Contains("Condições de Crédito", StringComparison.OrdinalIgnoreCase) ||
+                line.Contains("CRL", StringComparison.OrdinalIgnoreCase) ||
+                line.Contains("Condições da Operação", StringComparison.OrdinalIgnoreCase))
             {
                 formattedLines.Add($"<h1>{line}</h1>");
             }
