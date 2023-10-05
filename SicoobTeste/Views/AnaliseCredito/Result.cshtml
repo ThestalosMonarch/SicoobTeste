@@ -52,7 +52,7 @@
     </div>
 
     <div id="profissao-container" class="form-group" style="display: none;">
-        <label  type="text">Profissão</label>
+        <label type="text">Profissão</label>
         <input asp-for="formValues.profissao" id="profissao" type="text" class="form-control">
     </div>
 
@@ -63,21 +63,21 @@
 
     <div id="periodo-container" class="form-group" style="display: none;">
         <label>Período na Empresa</label>
-        <input asp-for="formValues.periodo_Empresa" id="periodo" type="text" class="form-control">
+        <input asp-for="formValues.periodo_Empresa" type="text" class="form-control">
     </div>
     <!--Valor crédito, Renda Bruta, Renda Liquida-->
     <div class="row">
         <div class="col-md-4 mb-3">
-            <label asp-for="formValues.ValorCredito">Valor Crédito</label>
-            <input type="text" class="form-control" value="" name="valor-credito">
+            <label class="form-check-label">Valor Crédito</label>
+            <input asp-for="formValues.ValorCredito" type="text" class="form-control">
         </div>
         <div class="col-md-4 mb-3">
-            <label asp-for="@Model.patrimonioCadastroAssociado.RendaBrutaMensal">Renda Bruta</label>
+            <label class="form-check-label">Renda Bruta</label>
             <input type="text" class="form-control" id="rendaBrutaMensal" value="@Model.patrimonioCadastroAssociado.RendaBrutaMensal" name="rendaBrutaMensal">
         </div>
         <div class="col-md-4 mb-3">
-            <label asp-for="formValues.rendaLiquida">Renda Líquida</label>
-            <input type="text" class="form-control" value="" name="renda-liquida">
+            <label class="form-check-label">Renda Líquida</label>
+            <input asp-for="formValues.rendaLiquida" type="text" class="form-control">
         </div>
     </div>
     <!--Demonstrativo do ano e Imposto de Renda -->
@@ -445,7 +445,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="input-group">
-                <input asp-for ="formValues.receitaFederal" type="text" class="form-control" placeholder="Receita Federal">
+                <input asp-for="formValues.receitaFederal" type="text" class="form-control" placeholder="Receita Federal">
                 <div class="input-group-append links-buttons-color">
                     <a href="https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp" class="btn btn-outline-secondary">Consultar Receita Federal</a>
                 </div>
@@ -515,19 +515,19 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="margem-contribuicao">Letra</label>
-                <input asp-for="formValues.letra" type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
+                <input asp-for="formValues.letra" type="text" class="form-control" id="margem-contribuicao">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="aplicacao">Limite Atribuido</label>
-                <input asp-for="formValues.limiteAtribuidoCRL" type="text" class="form-control" id="aplicacao" value="" name="aplicacao">
+                <input asp-for="formValues.limiteAtribuidoCRL" type="text" class="form-control" id="aplicacao">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="margem-contribuicao">Data da Classificação</label>
-                <input asp-for="formValues.limiteAtribuidoCRL" type="text" class="form-control" id="margem-contribuicao" value="" name="margem-contribuicao">
+                <input asp-for="formValues.limiteAtribuidoCRL" type="text" class="form-control" id="margem-contribuicao">
             </div>
         </div>
     </div>
@@ -547,7 +547,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="Valor-Total">Valor Total</label>
-                <input asp-for="formValues.condicoesOperacaValorTotal" type="text" class="form-control" id="valor-total-emprestimo" value="" >
+                <input asp-for="formValues.condicoesOperacaValorTotal" type="text" class="form-control" id="valor-total-emprestimo" value="">
             </div>
         </div>
         <div class="col-md-4">
@@ -643,11 +643,10 @@
     <!-- Hidden Fields - Used for calculations-->
     <div class="form-group" id="#hiddenFieldsContainer">
         <input type="hidden" id="valorVencerAte360Dias" value="@Model.endividamentoExterno.Sum(x => x.ValorVencerAte360Dias)" name="valorVencerAte360Dias">
-        <input type="hidden" id="idade" value="@Model.patrimonioCadastroAssociado.Idade" name="idade">
+        <input type="hidden" id="idade" value="@Model.patrimonioCadastroAssociado.Idade.ToString()" >
         <input type="hidden" id="saldoTotalDevedor" value="@Model.TotalDevedor" name="saldoTotalDevedor">
         <!-- Add more hidden input fields here if needed -->
     </div>
-
 </form>
 <script src="~/js/Result.js"></script>
 

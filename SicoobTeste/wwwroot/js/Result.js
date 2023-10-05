@@ -72,26 +72,25 @@ function calculateCapacidadePagamento() {
         },
         success: function (data) {
             // Update the value of the field on the page
+            console.log("Data received from server:", data)
             $("#capacidade-pagamento").val(data.toFixed(2));
         }
     });
+    callbackFunction();
 }
-
-//Calcular Seguro Prestamista
-$(document).ready(function () {
-    // event listeners to the input fields
-    $('[name$="valor-total-emprestimo"]').on('input', calculateSeguroPrestamista);
-});
-
+function callbackFunction() {
+    // Call the calculateSeguroPrestamista function
+    calculateSeguroPrestamista();
+}
 function calculateSeguroPrestamista() {
-
-    var valorTotalEmprestimo = parseFloat($('[name$="valor-total-emprestimo"]').val());
-    var saldoTotalDevedor = parseFloat($('[name$="saldoTotalDevedor"]').val());
-    var idade = parseInt($('[name$="idade"]').val());
+    var valorTotalEmprestimo = parseFloat(document.getElementById("valor-total-emprestimo").value);
+    var saldoTotalDevedor = parseFloat(document.getElementById("saldoTotalDevedor").value);
+    var idade = document.getElementById("idade").value;
 
     console.log("valorTotalEmprestimo:", valorTotalEmprestimo);
     console.log("saldoTotalDevedor:", saldoTotalDevedor);
     console.log("idade:", idade);
+
     $.ajax({
         url: "/AnaliseCredito/CalcularSeguroPrestamista",
         method: "POST",
@@ -102,9 +101,11 @@ function calculateSeguroPrestamista() {
         },
         success: function (data) {
             // Update the value of the field on the page
+            console.log("Data received from server:", data);
             $("#seguro_prestamista").val(data);
         }
     });
 }
+
 //Esconder campos para calculo
 $("#hiddenFieldsContainer").hide();

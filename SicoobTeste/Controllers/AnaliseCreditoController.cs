@@ -203,7 +203,7 @@ namespace SicoobTeste.Controllers
                 sb.AppendLine("sem cartões!");
             }
             //saldo devedor
-            sb.AppendLine("Endividamento Intero do Cooperado");
+            sb.AppendLine("Endividamento Interno do Cooperado");
             if (model.endividamentoInterno != null)
             {
                 foreach (var item in model.endividamentoInterno)
@@ -220,7 +220,7 @@ namespace SicoobTeste.Controllers
                     }
                     else
                     {
-                        sb.AppendLine("Sim");
+                        sb.AppendLine("Não");
                     }
                     sb.AppendLine("INAD 90 Maior que zero?");
                     if (item.INAD90 > 0)
@@ -229,7 +229,7 @@ namespace SicoobTeste.Controllers
                     }
                     else
                     {
-                        sb.AppendLine("Sim");
+                        sb.AppendLine("Não");
                     }
                     sb.AppendLine("INAD saldo devedor Maior que zero?");
                     if (item.SaldoDevedorDiario > 0)
@@ -238,7 +238,7 @@ namespace SicoobTeste.Controllers
                     }
                     else
                     {
-                        sb.AppendLine("Sim");
+                        sb.AppendLine("Não");
                     }
                 }
                 sb.AppendLine($"Total do Contrato:{model.TotalContrato}");
@@ -259,6 +259,9 @@ namespace SicoobTeste.Controllers
             {
                 sb.AppendLine("Sem dados sobre o Serasa!");
             }
+            //endividamento intero 
+            decimal? totalEndividamento = model.endividamentoExterno.Sum(x => x.ValorVencerAte360Dias);
+            sb.AppendLine($"Total de endividamento externo até um ano: {totalEndividamento}");
             //CRL
             sb.AppendLine("CRL");
             sb.AppendLine($"Letra: { model.formValues.letra}");
@@ -299,8 +302,10 @@ namespace SicoobTeste.Controllers
             return Json(capacidadePagamento);
 
         }
+        [HttpPost]
         public IActionResult CalcularSeguroPrestamista(decimal valorTotalEmprestimo, decimal saldoTotalDevedor, int idade)
         {
+           
             string reposta = "";
             decimal? prestamista = valorTotalEmprestimo + saldoTotalDevedor;
             switch (idade)
